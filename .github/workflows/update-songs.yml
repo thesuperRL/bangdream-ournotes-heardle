@@ -1,0 +1,37 @@
+name: Update Songs
+
+on:
+  schedule:
+    - cron: '0 2 * * *'   # 2 AM UTC daily
+  workflow_dispatch:        # allow manual trigger
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install system deps
+        run: |
+          sudo apt-get update && sudo apt-get install -y ffmpeg
+          pip install yt-dlp requests beautifulsoup4
+
+      - name: Run update script
+        run: python scripts/update_songs.py
+
+      - name: Commit changes if any
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add songs/songs.json songs/order.json audio/
+          git diff --cached --quiet || git commit -m "chore: add new Our Notes songs [automated]"
+          # Downloads take minutes; rebase in case anything else landed meanwhile.
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push
