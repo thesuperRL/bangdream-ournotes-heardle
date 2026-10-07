@@ -2,6 +2,9 @@
     /* BanG Dream! brand pink, as used on the official sites */
     --bd-pink: #de1c4e;
     --bd-pink-dark: #b5133e;
+    /* Muted version for the right-band hint, so it reads as a hint rather
+       than as another piece of chrome. */
+    --bd-pink-dim: #8f3a51;
 }
 
 /* The page is exactly one viewport tall: header and footer always visible,
@@ -96,6 +99,20 @@ hr {
     border-color: #999999;
     color: #999999;
     height: 100%;
+}
+
+/* Wrong song, right band: the one hint a miss gives you. Hovering the row
+   names the band (set as a title attribute in checkGuess). */
+.col-sm-middle.right-band,
+.col-sm-middle-guessed.right-band {
+    border-color: var(--bd-pink-dim);
+    color: var(--bd-pink-dim);
+    cursor: help;
+}
+
+/* Shows the hint colour inline in the How to Play text. */
+.hint-swatch {
+    color: var(--bd-pink-dim);
 }
 
 .search-container {

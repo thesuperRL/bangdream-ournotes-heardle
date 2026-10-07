@@ -1,4 +1,5 @@
 import re
+import time
 import sys
 
 import requests
@@ -7,10 +8,18 @@ from bs4 import BeautifulSoup
 sys.path.insert(0, "scripts")
 from slugify import song_file
 
+PAGE = "BanG Dream! Our Notes/Track List"
 WIKI_URL = "https://bandori.miraheze.org/wiki/BanG_Dream!_Our_Notes/Track_List"
+API_URL = "https://bandori.miraheze.org/w/api.php"
 
+# Miraheze rejects requests whose User-Agent looks like a script (plain
+# "python-requests/..." gets a 403), so identify the bot and give a contact.
 HEADERS = {
-    "User-Agent": "Mozilla/5.0 (compatible; bangdream-heardle-bot/1.0)"
+    "User-Agent": (
+        "bangdream-ournotes-heardle/1.0 "
+        "(https://github.com/thesuperRL/bangdream-ournotes-heardle) "
+        "python-requests"
+    )
 }
 
 
@@ -54,10 +63,34 @@ def pick_table(tables, keyword):
     raise RuntimeError(f"No wikitable found under a '{keyword}' heading")
 
 
+def fetch_html():
+    """Rendered page HTML. The API is tried first: it is the interface the wiki
+    asks bots to use, and it answers with the same markup the parser below
+    expects. Each source gets retries because the edge sometimes 403s a burst."""
+    attempts = [
+        ("api", lambda: requests.get(
+            API_URL,
+            params={"action": "parse", "page": PAGE, "prop": "text",
+                    "format": "json", "formatversion": "2"},
+            headers=HEADERS, timeout=20).json()["parse"]["text"]),
+        ("page", lambda: requests.get(WIKI_URL, headers=HEADERS, timeout=20).text),
+    ]
+    errors = []
+    for name, get in attempts:
+        for attempt in range(3):
+            try:
+                html = get()
+                if "wikitable" in html:
+                    return html
+                raise RuntimeError("response carried no wikitable")
+            except Exception as e:
+                errors.append(f"{name} attempt {attempt + 1}: {e}")
+                time.sleep(2 * (attempt + 1))
+    raise RuntimeError("Could not read the track list.\n  " + "\n  ".join(errors))
+
+
 def scrape():
-    r = requests.get(WIKI_URL, headers=HEADERS, timeout=15)
-    r.raise_for_status()
-    soup = BeautifulSoup(r.text, "html.parser")
+    soup = BeautifulSoup(fetch_html(), "html.parser")
     tables = soup.find_all("table", {"class": "wikitable"})
     if len(tables) < 2:
         raise RuntimeError(f"Expected at least 2 wikitables, found {len(tables)}")

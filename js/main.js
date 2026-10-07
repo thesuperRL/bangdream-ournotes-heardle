@@ -40,6 +40,8 @@ let lang = localStorage.getItem('lang') || 'en';
 
 // Array to keep track of wrong guesses
 let wrongGuesses = [];
+// Parallel to wrongGuesses: was that guess at least by the right band?
+let wrongGuessRightBand = [];
 const wrongGuessSecondsReceived = [1, 2, 3, 4, 5]
 const wrongGuessSecondsCumulative = [1, 2, 4, 7, 11, 16, 16]
 
@@ -273,7 +275,13 @@ function checkGuess(inputValue) {
         });
         return true;
     } else {
-        // Add wrong guess to the array
+        // Add wrong guess to the array, recording whether the band was right.
+        // Stored now, not derived at render time: switching language rebuilds
+        // ArrGuesses, after which the old guess strings no longer resolve.
+        const guessed = ArrGuesses.indexOf(guess);
+        wrongGuessRightBand.push(
+            guessed !== -1 &&
+            SongDict[guessed].performer === SongDict[SongIndex].performer);
         wrongGuesses.push(guess);
 
         // Set Guess Skip Number
@@ -288,6 +296,10 @@ function checkGuess(inputValue) {
             const element = document.getElementById(`guess${i + 1}`);
             if (element) {
                 element.textContent = wrongGuesses[i];
+                element.classList.toggle('right-band', wrongGuessRightBand[i]);
+                element.title = wrongGuessRightBand[i]
+                    ? `Correct Band: ${SongDict[SongIndex].performer}`
+                    : '';
                 if (i === Math.min(wrongGuesses.length, 6) - 1) {
                     element.classList.remove('col-sm-middle');
                     element.classList.add('col-sm-middle-guessed');
@@ -524,11 +536,14 @@ function createUnclosablePopup(content, options = {}) {
 
         // clear wrong answers
         wrongGuesses = [];
+        wrongGuessRightBand = [];
         // Un-update HTML elements with wrong guesses
         for (let i = 0; i < 6; i++) {
             const element = document.getElementById(`guess${i + 1}`);
             if (element) {
                 element.innerHTML = "<br><br>";
+                element.classList.remove('right-band');
+                element.title = '';
                 if (i !== 0) {
                     // unlight it
                     element.classList.remove('col-sm-middle-guessed');
