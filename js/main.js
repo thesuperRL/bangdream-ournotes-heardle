@@ -24,10 +24,12 @@ let order = [];
 // workflow rewrites whenever every song has had its day.
 let STARTDATE;
 
-// Clips are already trimmed to the part we want, so playback starts at 0.
-// Anything above 0 needs a backwards seek that only works on hosts serving
-// HTTP Range requests (GitHub Pages does, python -m http.server does not).
-const OFFSET = 0;
+// Second of the clip playback starts from. Zero for the daily song: the clip is
+// already trimmed to the part we want, and anything above zero needs a seek,
+// which only works on hosts serving HTTP Range requests (GitHub Pages does,
+// python -m http.server does not). Endless mode may randomise it per song.
+let OFFSET = 0;
+let offsetPicked = false;
 
 const searchInput = document.getElementById('search-input');
 const suggestionsContainer = document.getElementById('suggestions');
@@ -35,8 +37,14 @@ const submitBtn = document.getElementById('submit-btn');
 const skipBtn = document.getElementById('skip-btn');
 const langSelect = document.getElementById('lang-select');
 
+const randomStartRow = document.getElementById('random-start-row');
+const randomStartBox = document.getElementById('random-start');
+
 // Language the song titles are shown and guessed in ('en' romanized, 'ja' native)
 let lang = localStorage.getItem('lang') || 'en';
+
+// Endless-only: start each song at a random playable second instead of its start.
+let randomStart = localStorage.getItem('randomStart') === '1';
 
 // Array to keep track of wrong guesses
 let wrongGuesses = [];
@@ -79,6 +87,9 @@ function initPlayer() {
     audio = new Audio(ClipURL);
     audio.preload = 'auto';
     durationDisplay.textContent = '0:16';
+    // New song, so the old start point no longer applies.
+    OFFSET = 0;
+    offsetPicked = false;
 }
 
 document.addEventListener('DOMContentLoaded', async function () {
@@ -96,8 +107,25 @@ document.addEventListener('DOMContentLoaded', async function () {
         currentTimeDisplay.textContent = formatTime(currentTime - OFFSET);
     }
 
+    // Pick the second this song starts on. Feasible means the full 16 seconds
+    // the game can unlock still fit before the clip ends, so the last guess is
+    // never short. Needs the duration, which only exists once metadata lands.
+    async function pickOffset() {
+        if (offsetPicked || mode !== "Endless" || !randomStart) {
+            return;
+        }
+        if (!audio.duration) {
+            await new Promise(resolve =>
+                audio.addEventListener('loadedmetadata', resolve, { once: true }));
+        }
+        const latest = Math.max(0, audio.duration - maxDuration);
+        OFFSET = Math.random() * latest;
+        offsetPicked = true;
+    }
+
     // Play the clip from OFFSET for as many seconds as have been unlocked
-    function playFirstFewSeconds() {
+    async function playFirstFewSeconds() {
+        await pickOffset();
         audio.currentTime = OFFSET;
         audio.play();
         isPlaying = true;
@@ -152,6 +180,13 @@ document.addEventListener('DOMContentLoaded', async function () {
         searchInput.value = '';
         validateInput();
         suggestionsContainer.style.display = 'none';
+    });
+
+    randomStartBox.checked = randomStart;
+    randomStartBox.addEventListener('change', () => {
+        randomStart = randomStartBox.checked;
+        localStorage.setItem('randomStart', randomStart ? '1' : '0');
+        // Takes effect on the next endless song, not mid-round.
     });
 
     buildGuesses();
@@ -552,8 +587,10 @@ function createUnclosablePopup(content, options = {}) {
             }
         }
 
-        // set mode to endless
+        // set mode to endless, which is the only mode the start-point setting
+        // applies to, so reveal it now
         mode = "Endless";
+        randomStartRow.style.display = 'block';
 
         // reset skip btn content
         skipBtn.textContent = "Skip (+" + wrongGuessSecondsReceived[wrongGuesses.length] + "s)";

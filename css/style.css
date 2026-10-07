@@ -115,6 +115,24 @@ hr {
     color: var(--bd-pink-dim);
 }
 
+/* Only meaningful once the daily song is done, so it stays hidden until the
+   player switches to endless mode. */
+#random-start-row {
+    display: none;
+}
+
+#random-start-label {
+    color: white;
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+#random-start {
+    accent-color: var(--bd-pink);
+    margin-right: 6px;
+}
+
 .search-container {
     position: relative;
     width: 35%;
