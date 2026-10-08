@@ -1,3 +1,4 @@
+import os
 import re
 import time
 import sys
@@ -5,7 +6,7 @@ import sys
 import requests
 from bs4 import BeautifulSoup
 
-sys.path.insert(0, "scripts")
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from slugify import song_file
 
 PAGE = "BanG Dream! Our Notes/Track List"

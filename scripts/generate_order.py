@@ -3,9 +3,10 @@ import datetime
 import json
 import os
 import random
+import sys
 
-SONGS_JSON = "songs/songs.json"
-ORDER_JSON = "songs/order.json"
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from paths import SONGS_JSON, ORDER_JSON
 
 
 def today():

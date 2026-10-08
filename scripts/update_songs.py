@@ -3,13 +3,10 @@ import os
 import subprocess
 import sys
 
-sys.path.insert(0, "scripts")
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from paths import ROOT, SONGS_JSON, MANUAL_JSON
 from scrape_wiki import scrape
 from download_song import download_and_trim
-
-SONGS_JSON = "songs/songs.json"
-# Tracks the wiki track list does not carry (in-game "Others" category, etc.).
-MANUAL_JSON = "songs/manual.json"
 
 with open(SONGS_JSON, encoding="utf-8") as f:
     existing = json.load(f)
@@ -54,4 +51,5 @@ if failed:
     print(f"\nWARNING: {len(failed)} song(s) failed to download: {failed}")
     print("Add them manually. songs.json NOT updated for failed entries.")
 
-subprocess.run([sys.executable, "scripts/generate_order.py"], check=True)
+subprocess.run(
+    [sys.executable, os.path.join(ROOT, "scripts", "generate_order.py")], check=True)

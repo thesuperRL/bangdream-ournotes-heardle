@@ -1,0 +1,176 @@
+:root {
+    --bd-pink: #de1c4e;
+    --bd-pink-dark: #b5133e;
+    --bg: #0c0c0e;
+    --card: #17171b;
+    --text: #e8e8ea;
+    --muted: #8d8d96;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 20px 40px;
+}
+
+.hero {
+    text-align: center;
+    padding: 64px 0 40px;
+}
+
+.wordmark {
+    margin: 0;
+    font-size: clamp(32px, 7vw, 64px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+}
+
+/* Second half of the wordmark, pushed onto its own line on narrow screens. */
+.wordmark-accent {
+    color: var(--bd-pink);
+    margin-left: 0.35em;
+}
+
+.tagline {
+    margin: 14px 0 4px;
+    color: var(--muted);
+    font-size: clamp(14px, 2.2vw, 18px);
+}
+
+.byline {
+    margin: 16px 0 10px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* Profile card, filled in from the GitHub API with a static fallback. */
+.gh-card {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 18px 10px 10px;
+    border-radius: 12px;
+    border: 1px solid #26262c;
+    background-color: var(--card);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s ease;
+}
+
+.gh-card:hover {
+    border-color: var(--bd-pink);
+}
+
+.gh-avatar {
+    border-radius: 50%;
+    display: block;
+}
+
+.gh-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.gh-name {
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.gh-meta {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.grid {
+    width: 100%;
+    max-width: 960px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-height: 160px;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid #26262c;
+    background-color: var(--card);
+    color: inherit;
+    text-decoration: none;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+/* Each game gets its own wash so the tiles stay distinguishable as more land. */
+.card-heardle {
+    background-image: linear-gradient(135deg, rgba(222, 28, 78, 0.35), transparent 65%);
+}
+
+.card:not(.card-soon):hover {
+    transform: translateY(-4px);
+    border-color: var(--bd-pink);
+}
+
+.card-name {
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.card-desc {
+    color: var(--muted);
+    font-size: 15px;
+    flex-grow: 1;
+}
+
+.card-tag {
+    align-self: flex-start;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background-color: var(--bd-pink);
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.card-soon {
+    border-style: dashed;
+    cursor: default;
+}
+
+.card-soon .card-name,
+.card-soon .card-desc {
+    color: var(--muted);
+}
+
+.card-soon .card-tag {
+    background-color: #2f2f37;
+    color: var(--muted);
+}
+
+.site-footer {
+    max-width: 640px;
+    margin-top: 56px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.site-footer a {
+    color: var(--bd-pink);
+}

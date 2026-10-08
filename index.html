@@ -2,163 +2,58 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Add Bootstrap Icons CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <title>BanG Dream! Our Notes Heardle</title>
-    <link rel="stylesheet" href="css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BanG Dream! Minigames</title>
+    <meta name="description" content="Fan-made BanG Dream! minigames by thesuperRL.">
+    <link rel="stylesheet" href="home.css">
 </head>
 <body>
-<div class="site-header">
-    <nav class="navbar navbar-expand navbar-dark bg-black">
-        <div class="container-fluid">
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto">
-                    <li class="nav-item navbig">
-                        <a href="#" class="btn me-2 mb-2 popup-link"
-                           data-bs-toggle="modal"
-                           data-bs-target="#customModal"
-                           data-popup-title="About"
-                           data-popup-content='<p class="modal-inner"> A Heardle game for BanG Dream! Our Notes songs, covering all originals and covers from MyGO!!!!!, Ave Mujica, Mugendai MewType, millsage, and Ikka Dumb Rock!. New tracks are added as the game receives them. Made by thesuperRL. <br><br> Have questions or bugs? DM thesuperRL on Discord. </p>'>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white"
-                                 class="bi bi-info-circle" viewBox="0 0 16 16">
-                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
-                            </svg>
-                        </a>
-                    </li>
-                    <li class="nav-item navbig">
-                        <a class="nav-link text-center nav-title" href="#">BANG DREAM! OUR NOTES HEARDLE</a>
-                    </li>
-                    <li class="nav-item navbig">
-                        <a href="#" class="btn me-2 mb-2 popup-link"
-                           data-bs-toggle="modal"
-                           data-bs-target="#customModal"
-                           data-popup-title="How to Play?"
-                           data-popup-content='<p class="modal-inner"> Listen to the intro, then find the correct BanG Dream! Our Notes song in the list. <br><br> Skipped or incorrect attempts unlock more of the intro. <br><br> A wrong guess is shown in <span class="hint-swatch">dim pink</span> when that song is by the same band as the answer, so it is the right band but the wrong song. Grey means the band is wrong too. Skips are always grey. <br><br> For a cover, the band that counts is the one performing it in Our Notes, not the original artist. <br><br> Answer in as few tries as possible and share your score! <br><br> Note: If the song does not play on the first click of the play button, try again. </p>'>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white"
-                                 class="bi bi-question-circle" viewBox="0 0 16 16">
-                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                                <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94"/>
-                            </svg>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <hr class="divider">
-</div>
+<header class="hero">
+    <h1 class="wordmark">BanG Dream!<span class="wordmark-accent">Minigames</span></h1>
+    <p class="tagline">Fan-made browser games for BanG Dream! and Our Notes</p>
+    <p class="byline">by</p>
+    <a class="gh-card" href="https://github.com/thesuperRL" target="_blank" rel="noopener">
+        <img class="gh-avatar" src="https://github.com/thesuperRL.png?size=96"
+             alt="thesuperRL on GitHub" width="48" height="48" loading="lazy">
+        <span class="gh-text">
+            <span class="gh-name">thesuperRL</span>
+            <span class="gh-meta" id="gh-meta">github.com/thesuperRL</span>
+        </span>
+    </a>
+</header>
 
-<main class="container nopad">
-    <div class="container justify-content-center text-center">
-        <div class="row mx-auto midrow">
-            <div class="col-sm col-sm-middle-guessed d-flex align-items-center justify-content-center" id="guess1">
-                <br>
-            </div>
-        </div>
-        <div class="row mx-auto midrow">
-            <div class="col-sm col-sm-middle d-flex align-items-center justify-content-center" id="guess2">
-                <br>
-            </div>
-        </div>
-        <div class="row mx-auto midrow">
-            <div class="col-sm col-sm-middle d-flex align-items-center justify-content-center" id="guess3">
-                <br>
-            </div>
-        </div>
-        <div class="row mx-auto midrow">
-            <div class="col-sm col-sm-middle d-flex align-items-center justify-content-center" id="guess4">
-                <br>
-            </div>
-        </div>
-        <div class="row mx-auto midrow">
-            <div class="col-sm col-sm-middle d-flex align-items-center justify-content-center" id="guess5">
-                <br>
-            </div>
-        </div>
-        <div class="row mx-auto midrow">
-            <div class="col-sm col-sm-middle d-flex align-items-center justify-content-center" id="guess6">
-                <br>
-            </div>
-        </div>
+<main class="grid">
+    <a class="card card-heardle" href="heardle/">
+        <span class="card-name">Heardle</span>
+        <span class="card-desc">Name the Our Notes track from its opening seconds</span>
+        <span class="card-tag">Daily and endless</span>
+    </a>
+
+    <div class="card card-soon" aria-disabled="true">
+        <span class="card-name">More soon</span>
+        <span class="card-desc">Another game is in the works</span>
+        <span class="card-tag">In development</span>
     </div>
 </main>
 
-<footer class="text-center">
-    <div class="play-btn-container">
-        <div class="time-display">
-            <span id="currentTime">0:00</span>
-            <span id="duration">0:16</span>
-        </div>
-    </div>
-    <hr class="divider">
-    <div class="play-btn-container">
-        <div class="progress-container">
-            <div class="progress">
-                <div id="progressBar" class="progress-bar" role="progressbar"></div>
-            </div>
-        </div>
-    </div>
-    <hr class="divider">
-    <div class="text-center footerdiv">
-        <div class="search-container">
-            <div class="play-btn-container">
-                <div class="controls">
-                    <button class="btn btn-play" id="btnPlay">&#9658;</button>
-                </div>
-            </div>
-            <input type="text" id="search-input" placeholder="Search for a song...">
-            <div id="suggestions"></div>
-            <div class="container justify-content-center text-center">
-                <div class="row">
-                    <div class="col-sm text-start">
-                        <button id="skip-btn">Skip (+1s)</button>
-                    </div>
-                    <div class="col-sm text-end">
-                        <button id="submit-btn" disabled>Submit</button>
-                    </div>
-                </div>
-            </div>
-            <div class="container justify-content-center text-center">
-                <label for="lang-select" id="lang-label">Song names:</label>
-                <select id="lang-select">
-                    <option value="en">English</option>
-                    <option value="ja">日本語</option>
-                </select>
-            </div>
-            <div class="container justify-content-center text-center" id="random-start-row">
-                <label for="random-start" id="random-start-label">
-                    <input type="checkbox" id="random-start"> Start anywhere in the song
-                </label>
-            </div>
-            <div class="container justify-content-center text-center">
-                <a id="credits-link" href="credits.html">Audio sources &amp; credits</a>
-            </div>
-        </div>
-    </div>
+<footer class="site-footer">
+    <p>Fan-made and not affiliated with Bushiroad, Craft Egg or Ninian. All songs and
+        artwork belong to their respective rights holders.</p>
+    <p><a href="heardle/credits.html">Heardle audio sources</a></p>
 </footer>
 
-<!-- Bootstrap Modal -->
-<div class="modal fade" id="customModal" tabindex="-1" aria-labelledby="customModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content custom-modal-content">
-            <div class="modal-header custom-modal-header">
-                <h5 class="modal-title text-center w-100" id="customModalLabel">Modal Title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body custom-modal-body" id="customModalBody">
-                Modal content will appear here...
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="endOverlay"></div>
-<div id="endPopup"></div>
-
-<!-- Latest compiled JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="js/main.js"></script>
+<script>
+    // Fill in the live profile line. The static text above stands in when the
+    // call fails or the unauthenticated rate limit is hit, so nothing breaks.
+    fetch('https://api.github.com/users/thesuperRL')
+        .then(r => r.ok ? r.json() : Promise.reject(r.status))
+        .then(u => {
+            const bits = [];
+            if (u.bio) bits.push(u.bio);
+            bits.push(`${u.public_repos} repos`, `${u.followers} followers`);
+            document.getElementById('gh-meta').textContent = bits.join(' \u00b7 ');
+        })
+        .catch(() => {});
+</script>
 </body>
 </html>

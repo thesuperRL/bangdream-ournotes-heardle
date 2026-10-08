@@ -237,11 +237,12 @@ hr {
     margin-top: 10px;
 }
 
-#credits-link {
+#credits-link,
+#credits-link-sources {
     display: inline-block;
     color: #999999;
     font-size: 14px;
-    margin-top: 12px;
+    margin: 12px 10px 0;
 }
 
 #unclosablePopup a {

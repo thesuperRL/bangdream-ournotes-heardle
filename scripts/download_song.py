@@ -1,9 +1,13 @@
 import os
 import re
 import subprocess
+import sys
 import time
 import unicodedata
 import tempfile
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from paths import SONGS_JSON, clip_path
 
 CLIP_SECONDS = 24
 # Uploads open on a logo sting or silence, so the clip starts a second in.
@@ -90,7 +94,7 @@ def _fetch(song, query, tmp):
 
 def download_and_trim(song):
     """Download song audio and trim to CLIP_SECONDS. Returns True on success."""
-    out_path = song["file"]
+    out_path = clip_path(song)
     if os.path.exists(out_path):
         print(f"  skip (exists): {out_path}")
         return True
@@ -120,13 +124,13 @@ def download_and_trim(song):
 
 
 if __name__ == "__main__":
-    # Bootstrap: download every song in songs/songs.json that has no file yet,
+    # Bootstrap: download every song in songs.json that has no file yet,
     # writing back the source attribution the credits page renders.
     import json
-    with open("songs/songs.json", encoding="utf-8") as f:
+    with open(SONGS_JSON, encoding="utf-8") as f:
         songs = json.load(f)
     failed = [s["title"] for s in songs if not download_and_trim(s)]
-    with open("songs/songs.json", "w", encoding="utf-8") as f:
+    with open(SONGS_JSON, "w", encoding="utf-8") as f:
         json.dump(songs, f, indent=4, ensure_ascii=False)
         f.write("\n")
     if failed:
