@@ -7,16 +7,17 @@ const DATA = '../data/';
 const SIZE = 3;
 const LIVES = 3;
 
-// Every square is guaranteed at least this many cards that fit. One would make
-// a square a single forced card out of 63, which against three lives is a
-// guess rather than a deduction.
-const MIN_PER_CELL = 2;
+/* Every square is guaranteed at least this many different characters that fit.
+   Characters, not cards, because a grid holds each character once: two cards
+   of one character are a single answer as far as the grid is concerned, and a
+   square down to one character is forced rather than deduced. */
+const MIN_CHARACTERS_PER_CELL = 2;
 
 // A grid is six clues drawn at random; this is how many draws are made before
 // giving up. Measured over the current 63 cards a usable grid turns up after
-// about 100 draws and the worst case seen was 1012, so this is slack, not a
-// tuning knob.
-const MAX_ATTEMPTS = 3000;
+// about 280 draws and the worst case seen in 1500 runs was 3261, so this is
+// slack, not a tuning knob.
+const MAX_ATTEMPTS = 20000;
 
 // ---- Randomness ----------------------------------------------------------
 
@@ -141,39 +142,44 @@ function cardsFor(rowClue, columnClue) {
     return CARDS.filter(card => rowClue.ids.has(card.id) && columnClue.ids.has(card.id));
 }
 
-// The ids of those cards. Walking the smaller set keeps this cheap: a draw
-// calls it nine times and a grid can take hundreds of draws.
-function idsFor(rowClue, columnClue) {
+/* The distinct characters a square can be filled by.
+
+   The intersection has to be taken over cards and only then collapsed to
+   characters. Going straight to characters would accept a character who meets
+   the row clue on one card and the column clue on a different one, which is
+   not a card that can be put in the square. */
+function charactersFor(rowClue, columnClue) {
     const [small, large] = rowClue.ids.size <= columnClue.ids.size
         ? [rowClue.ids, columnClue.ids]
         : [columnClue.ids, rowClue.ids];
-    const found = [];
+    const found = new Set();
     for (const id of small) {
-        if (large.has(id)) found.push(id);
+        if (large.has(id)) found.add(CHARACTER_OF.get(id));
     }
     return found;
 }
 
-/* Can the nine squares be filled with nine different cards at once?
+/* Can the nine squares be filled all at once, given that a character is used
+   only once in a grid?
 
-   Checking each square separately is not enough. Three squares can each offer
-   two cards and still have only two cards between them, and because a card is
-   used once that grid can never be finished: the player would spend lives on a
-   square that has nothing left to put in it. About one grid in eighty looks
-   fine square by square and fails here.
+   Checking each square on its own is not enough. Three squares can each offer
+   two characters and still have only two characters between them, and that
+   grid can never be finished: the player would reach a square with nobody left
+   to put in it. About one grid in eighty looks fine square by square and fails
+   here.
 
-   This is a bipartite matching between squares and cards, so each square in
-   turn claims a card, pushing an earlier square onto another of its options
-   when it has to. A square that cannot be served even after that reshuffling
-   is one the grid has no room for. */
+   This is a bipartite matching between squares and characters, so each square
+   in turn claims a character, pushing an earlier square onto another of its
+   options when it has to. A square that cannot be served even after that
+   reshuffling is one the grid has no room for. */
 function canFillDistinctly(options) {
     const holder = new Map();
     function claim(square, tried) {
-        for (const id of options[square]) {
-            if (tried.has(id)) continue;
-            tried.add(id);
-            if (!holder.has(id) || claim(holder.get(id), tried)) {
-                holder.set(id, square);
+        for (const character of options[square]) {
+            if (tried.has(character)) continue;
+            tried.add(character);
+            if (!holder.has(character) || claim(holder.get(character), tried)) {
+                holder.set(character, square);
                 return true;
             }
         }
@@ -208,9 +214,9 @@ function generatePuzzle(seed) {
         const options = [];
         for (const row of rows) {
             for (const column of columns) {
-                const ids = idsFor(row, column);
-                if (ids.length < MIN_PER_CELL) break;
-                options.push(ids);
+                const characters = charactersFor(row, column);
+                if (characters.size < MIN_CHARACTERS_PER_CELL) break;
+                options.push(characters);
             }
         }
         if (options.length < 9) continue;
@@ -222,6 +228,9 @@ function generatePuzzle(seed) {
 // ---- State ---------------------------------------------------------------
 
 let CARDS = [];
+// Card id -> character slug, so the generator can collapse a square's cards to
+// the characters behind them without searching CARDS each time.
+let CHARACTER_OF = new Map();
 let puzzle = null;
 /* placed[row][column] is the card that settled the square, or null while it is
    still open. missed[row][column] lists the cards already tried there and
@@ -409,11 +418,16 @@ function onCellClick(event) {
     openSearch();
 }
 
-/* Cards already placed are gone from the pool: reusing one would let a single
-   card cover several squares, which is not a puzzle. A card rejected somewhere
-   is still free, since it may well belong on another square. */
-function usedIds() {
-    return new Set(state.placed.flat().filter(id => id !== null));
+/* The characters already standing in the grid. A grid holds each character
+   once, so once one of their cards is placed the rest of that character's
+   cards leave the pool everywhere; which of their cards the player used is up
+   to them. A character merely rejected somewhere is still free. */
+function usedCharacters() {
+    const used = new Set();
+    for (const id of state.placed.flat()) {
+        if (id !== null) used.add(CHARACTER_OF.get(id));
+    }
+    return used;
 }
 
 function commitGuess(id) {
@@ -470,14 +484,16 @@ function openSearch() {
    cards that already satisfy both clues would answer the puzzle for the player
    and leave the three lives unspendable.
 
-   Two sets are held back. Cards already placed, because one card may not cover
-   two squares. And the cards this square has already rejected, because a life
-   has been paid to learn they do not belong here and charging a second one for
-   the same answer is a trap, not a difficulty. */
+   Two sets are held back. Every card of a character already in the grid, since
+   a character fills one square and no more. And the cards this square has
+   already rejected, which is a card-level list rather than a character one: a
+   character's cards differ in rarity and attribute, so the wrong card of a
+   character can sit beside the right one. */
 function candidates() {
-    const used = usedIds();
+    const used = usedCharacters();
     const rejected = new Set(state.missed[selected.row][selected.column]);
-    return CARDS.filter(card => !used.has(card.id) && !rejected.has(card.id));
+    return CARDS.filter(card =>
+        !used.has(card.characterId) && !rejected.has(card.id));
 }
 
 function renderSuggestions(query) {
@@ -655,6 +671,7 @@ function hideEnd() {
 document.addEventListener('DOMContentLoaded', async function () {
     const response = await fetch(DATA + 'cards/cards.json');
     CARDS = await response.json();
+    CHARACTER_OF = new Map(CARDS.map(card => [card.id, card.characterId]));
 
     const searchDialog = document.getElementById('search-dialog');
     const input = document.getElementById('search-input');

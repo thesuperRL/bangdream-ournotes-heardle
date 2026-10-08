@@ -130,6 +130,9 @@ def build_cards():
             "id": card["cardId"],
             "title": card["prefix"][EN],
             "titleJa": card["prefix"][JA],
+            # The wordle's own character slug, so a game can group a
+            # character's cards without matching on a display name.
+            "characterId": local["id"],
             "character": local["names"]["en"],
             "characterJa": local["names"]["ja"],
             "stageName": local["stageName"],
