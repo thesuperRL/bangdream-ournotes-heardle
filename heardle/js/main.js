@@ -680,7 +680,7 @@ ${generateGuessNumbers(isGuessed)}`;
 }
 
 function generateGuessNumbers(isGuessed) {
-    const right = "🟩";
+    const right = "🟦";
     const rightSound = "🔊";
     const wrong = "⬛️";
     const wrongSound = "🔇";

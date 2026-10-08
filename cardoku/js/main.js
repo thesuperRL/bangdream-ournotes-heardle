@@ -594,7 +594,7 @@ function resultGrid() {
     for (let row = 0; row < SIZE; row++) {
         let line = '';
         for (let column = 0; column < SIZE; column++) {
-            if (state.placed[row][column] !== null) line += '\u{1F7E9}';
+            if (state.placed[row][column] !== null) line += '\u{1F7E6}';
             else if (state.missed[row][column].length > 0) line += '\u{1F7E5}';
             else line += '\u2B1B';
         }

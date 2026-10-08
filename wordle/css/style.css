@@ -5,6 +5,10 @@
     /* Muted version for partial hints, so they read as a hint rather than as
        another piece of chrome. */
     --bd-pink-dim: #8f3a51;
+    /* MyGO!!!!!'s blue, used only to mark something as exactly correct. The
+       page stays pink: this is the one state that needs to read as "right"
+       rather than as "close", which two shades of the same pink could not do. */
+    --mygo-blue: #3388bb;
 }
 
 /* The page is exactly one viewport tall: header and footer always visible,
@@ -126,7 +130,7 @@ hr {
 
 /* Field matches the answer exactly. */
 .guess-row td.match-full {
-    background-color: var(--bd-pink);
+    background-color: var(--mygo-blue);
     color: #ffffff;
 }
 
@@ -187,7 +191,7 @@ hr {
 
 /* Shows the hint colours inline in the How to Play text. */
 .hint-swatch {
-    color: var(--bd-pink);
+    color: var(--mygo-blue);
     font-weight: 600;
 }
 

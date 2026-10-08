@@ -769,7 +769,7 @@ ${generateGuessNumbers(isGuessed)}`;
 }
 
 function generateGuessNumbers(isGuessed) {
-    const right = "🟩";
+    const right = "🟦";
     const wrong = "⬛️";
     const unused = "⬜️";
 
