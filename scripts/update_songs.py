@@ -12,7 +12,7 @@ with open(SONGS_JSON, encoding="utf-8") as f:
     existing = json.load(f)
 
 # A song is already known if its title/performer pair OR its audio path is
-# taken: a wiki romanization edit changes the title, and songs/manual.json
+# taken: a wiki romanization edit changes the title, and data/songs/manual.json
 # entries can reappear in the scrape under their real performer.
 seen_keys = {(s["title"], s["performer"]) for s in existing}
 seen_files = {s["file"] for s in existing}

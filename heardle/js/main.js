@@ -1,8 +1,13 @@
+// Datasets are shared by every game in this repo, so they live at the site
+// root rather than inside this folder. Paths stored inside a dataset (a song's
+// "file", for instance) are relative to this prefix.
+const DATA = '../data/';
+
 async function loadData() {
     try {
         const [songsRes, orderRes] = await Promise.all([
-            fetch('songs/songs.json'),
-            fetch('songs/order.json'),
+            fetch(DATA + 'songs/songs.json'),
+            fetch(DATA + 'songs/order.json'),
         ]);
         const songs = await songsRes.json();
         const schedule = await orderRes.json();
@@ -20,7 +25,7 @@ let ArrGuesses = [];
 
 let order = [];
 
-// Day 0 of the current rotation; set from songs/order.json, which the rotate
+// Day 0 of the current rotation; set from data/songs/order.json, which the
 // workflow rewrites whenever every song has had its day.
 let STARTDATE;
 
@@ -190,7 +195,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
 
     buildGuesses();
-    ClipURL = SongDict[SongIndex]['file'];
+    ClipURL = DATA + SongDict[SongIndex]['file'];
 
     console.log(ArrGuesses);
     console.log(Answer);
@@ -565,7 +570,7 @@ function createUnclosablePopup(content, options = {}) {
         SongIndex = getRandomInt(0, SongDict.length - 1);
 
         Answer = ArrGuesses[SongIndex];
-        ClipURL = SongDict[SongIndex]['file'];
+        ClipURL = DATA + SongDict[SongIndex]['file'];
         console.log(Answer);
         console.log(ClipURL);
 

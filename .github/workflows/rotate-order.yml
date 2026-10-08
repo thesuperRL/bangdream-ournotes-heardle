@@ -18,8 +18,8 @@ jobs:
         with:
           python-version: '3.12'
 
-      # No-op until every song in songs/order.json has had its day; then the
-      # order is reshuffled and its start date moves to today.
+      # No-op until every song in data/songs/order.json has had its day; then
+      # the order is reshuffled and its start date moves to today.
       - name: Rotate the order if the cycle finished
         run: python scripts/generate_order.py --rotate
 
@@ -27,7 +27,7 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add heardle/songs/order.json
+          git add data/songs/order.json
           git diff --cached --quiet || git commit -m "chore: start a new song rotation [automated]"
           git pull --rebase origin "${GITHUB_REF_NAME}"
           git push

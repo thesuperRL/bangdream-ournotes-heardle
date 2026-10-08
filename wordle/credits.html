@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Credits - BanG Dream! Our Notes Character Wordle</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+</head>
+<body>
+<div class="site-header">
+    <nav class="navbar navbar-expand navbar-dark bg-black">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item navbig">
+                        <a class="nav-link text-center nav-title" href="index.html">BANG DREAM! OUR NOTES WORDLE</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <hr class="divider">
+</div>
+
+<main class="container">
+    <p class="credits-intro">
+        Every character detail and every portrait in this game comes from the
+        <a href="https://bandori.miraheze.org/" target="_blank" rel="noopener">BanG Dream! Wiki</a>,
+        which hosts them under its own licensing. Band logos come from the same wiki. The characters
+        and artwork are the property of their rights holders (Bushiroad, Craft Egg and Ninian).
+        Nothing here is sold or monetised; the images are used for identification in a fan guessing
+        game. The format is modelled on
+        <a href="https://www.amiya.io/wordle" target="_blank" rel="noopener">amiya.io/wordle</a>.
+        If you own one of these images and want it removed, DM thesuperRL on Discord and it will be
+        taken down.
+    </p>
+    <table class="table table-dark table-striped credits-table">
+        <thead>
+        <tr>
+            <th>Character</th>
+            <th>Band</th>
+            <th>Wiki page</th>
+        </tr>
+        </thead>
+        <tbody id="credits-body"></tbody>
+    </table>
+</main>
+
+<script>
+    fetch('../data/characters/characters.json')
+        .then(r => r.json())
+        .then(characters => {
+            const body = document.getElementById('credits-body');
+            characters.forEach(char => {
+                const row = document.createElement('tr');
+
+                const nameCell = document.createElement('td');
+                nameCell.textContent = char.stageName
+                    ? `${char.names.en} / ${char.names.ja} (${char.stageName})`
+                    : `${char.names.en} / ${char.names.ja}`;
+
+                const bandCell = document.createElement('td');
+                bandCell.textContent = char.band;
+
+                // Wiki pages are titled with the Japanese name order, which is
+                // exactly how names.en is stored.
+                const sourceCell = document.createElement('td');
+                const link = document.createElement('a');
+                link.href = 'https://bandori.miraheze.org/wiki/'
+                    + encodeURIComponent(char.names.en.replace(/ /g, '_'));
+                link.target = '_blank';
+                link.rel = 'noopener';
+                link.textContent = char.names.en;
+                sourceCell.appendChild(link);
+
+                row.append(nameCell, bandCell, sourceCell);
+                body.appendChild(row);
+            });
+        });
+</script>
+</body>
+</html>

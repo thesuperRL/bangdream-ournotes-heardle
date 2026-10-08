@@ -1,0 +1,36 @@
+name: Rotate Character Order
+
+on:
+  schedule:
+    # 2:45 AM UTC daily. Offset from the song rotation at 2:30 so the two jobs
+    # do not race each other pushing to the same branch.
+    - cron: '45 2 * * *'
+  workflow_dispatch:        # allow manual trigger
+
+jobs:
+  rotate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # No-op until all 25 characters in data/characters/order.json have had
+      # their day; on day 25 the order is reshuffled and its start date moves
+      # to today, so the cycle restarts with a different sequence.
+      - name: Rotate the order if the cycle finished
+        run: python scripts/generate_character_order.py --rotate
+
+      - name: Commit changes if any
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/characters/order.json
+          git diff --cached --quiet || git commit -m "chore: start a new character rotation [automated]"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push

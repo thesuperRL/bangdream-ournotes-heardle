@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="BanG Dream! Minigames">
+    <!-- Star motif rather than a music note: it suits the character wordle as
+         much as the heardle, where a note would read as heardle-only. -->
+    <rect width="64" height="64" rx="14" fill="#0d0d0d"/>
+    <path fill="#de1c4e"
+          d="M32 9.5 39.6 25l17.1 2.5-12.4 12 2.9 17L32 48.5 16.8 56.5l2.9-17-12.4-12L24.4 25z"/>
+</svg>

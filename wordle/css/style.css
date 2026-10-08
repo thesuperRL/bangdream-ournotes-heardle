@@ -1,0 +1,462 @@
+:root {
+    /* BanG Dream! brand pink, as used on the official sites */
+    --bd-pink: #de1c4e;
+    --bd-pink-dark: #b5133e;
+    /* Muted version for partial hints, so they read as a hint rather than as
+       another piece of chrome. */
+    --bd-pink-dim: #8f3a51;
+}
+
+/* The page is exactly one viewport tall: header and footer always visible,
+   and the guess table is the only thing that can scroll. */
+body {
+    background-color: black;
+    height: 100vh;
+    overflow: hidden;
+    margin: 0;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+main {
+    min-height: 0; /* lets the 1fr row shrink instead of pushing the footer off */
+    overflow-y: auto;
+}
+
+.site-header,
+footer {
+    background-color: black;
+}
+
+.nav-title {
+    white-space: nowrap;
+    font-size: clamp(13px, 3.6vw, 44px);
+    color: var(--bd-pink) !important;
+}
+
+.navcontainer {
+    background-color: black;
+}
+
+.navbig {
+    font-size: 300%;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+/* Phone widths: the 30px gutters alone would push the one-line title off screen. */
+@media (max-width: 600px) {
+    .navbig {
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+
+    .navbig .popup-link {
+        padding: 0;
+        margin-right: 0 !important;
+    }
+}
+
+.footerdiv {
+    /* Content-sized: a fixed height spilled the language picker and credits
+       link past the pinned footer. */
+    margin: 0px;
+    padding: 20px 0;
+    color: white;
+}
+
+hr {
+    border-width: 10px;
+    margin: 0px;
+    padding: 0px;
+}
+
+/* ---- Guess table ---------------------------------------------------- */
+
+.guess-table {
+    width: 100%;
+    max-width: 900px;
+    margin: 12px auto;
+    border-collapse: separate;
+    border-spacing: 4px;
+    table-layout: fixed;
+}
+
+.guess-table th {
+    color: #999999;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding-bottom: 2px;
+    text-align: center;
+}
+
+/* The icon column only ever holds a 36px circle. */
+.guess-table th:first-child,
+.guess-row td:first-child {
+    width: 48px;
+}
+
+.guess-row td {
+    padding: 4px 6px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 0.72rem;
+    line-height: 1.2;
+    border-radius: 4px;
+    background-color: #1a1a1a;
+    color: #999999;
+    height: 46px;
+    /* Seven columns on a phone leave the school names narrower than the words
+       themselves, so long names break mid-word rather than overflow the cell.
+       hyphens:auto does not help: these are proper nouns with no dictionary
+       break points. */
+    overflow-wrap: break-word;
+}
+
+/* Rows not yet played: present but clearly inert, so the board shows how many
+   guesses are left without looking like a filled row. */
+.guess-row.empty td {
+    background-color: #111111;
+    color: #333333;
+}
+
+/* Field matches the answer exactly. */
+.guess-row td.match-full {
+    background-color: var(--bd-pink);
+    color: #ffffff;
+}
+
+/* Partial overlap (shared position) or a comparison field (year, height),
+   which stays dim even when it is an exact match. */
+.guess-row td.match-partial {
+    background-color: var(--bd-pink-dim);
+    color: #ffffff;
+}
+
+.guess-row td.cell-icon {
+    padding: 2px;
+}
+
+.guess-row td.cell-icon img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.guess-row td.cell-name {
+    font-size: 0.68rem;
+    white-space: pre-line;
+}
+
+/* Logos are wide artwork on transparent backgrounds; the filter makes them
+   white so they read against both the dark cell and the pink match cell. */
+.guess-row td.cell-band img {
+    height: 26px;
+    max-width: 100%;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+}
+
+.arrow-badge {
+    display: inline-block;
+    margin-left: 3px;
+    font-size: 1.05em;
+}
+
+/* Shows the hint colours inline in the How to Play text. */
+.hint-swatch {
+    color: var(--bd-pink);
+    font-weight: 600;
+}
+
+.hint-swatch-dim {
+    color: var(--bd-pink-dim);
+    font-weight: 600;
+}
+
+/* ---- Footer controls ------------------------------------------------ */
+
+.search-container {
+    position: relative;
+    width: 35%;
+    margin: auto;
+}
+
+#search-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 24px;
+    border: 1px solid grey;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    background-color: black;
+    color: #999999;
+}
+
+#suggestions {
+    position: absolute;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid black;
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+    background: black;
+    z-index: 1000;
+    display: none;
+    bottom: 100%; /* Positions above the input */
+    margin-bottom: -1px; /* Aligns border with input */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+    color: #999999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.suggestion-item img {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.suggestion-item:hover {
+    background-color: #333333;
+}
+
+#submit-btn {
+    padding: 10px 20px;
+    background-color: var(--bd-pink);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+#share-btn {
+    padding: 10px 20px;
+    background-color: var(--bd-pink);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+#endless-btn {
+    padding: 10px 20px;
+    background-color: #999999;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+#guesses-left {
+    color: #999999;
+    font-size: 14px;
+    margin: 0;
+    padding: 6px 0;
+}
+
+#lang-label {
+    color: white;
+    font-size: 16px;
+    margin: 10px 8px 0 0;
+}
+
+#lang-select {
+    padding: 6px 10px;
+    background-color: #333333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+#credits-link,
+#credits-link-sources {
+    display: inline-block;
+    color: #999999;
+    font-size: 14px;
+    margin: 12px 10px 0;
+}
+
+#unclosablePopup a {
+    color: var(--bd-pink);
+}
+
+#answer-icon {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 10px auto;
+    border: 3px solid var(--bd-pink);
+}
+
+/* Only ever rendered on a birthday-week win, so it is allowed to shout. */
+#birthday-note {
+    color: var(--bd-pink);
+    font-weight: 600;
+    margin: 4px 0 10px;
+}
+
+.credits-intro {
+    color: #cccccc;
+    font-size: 14px;
+    margin: 20px 0;
+}
+
+.credits-table a {
+    color: var(--bd-pink);
+}
+
+#submit-btn:hover:not(:disabled) {
+    background-color: var(--bd-pink-dark);
+}
+
+#submit-btn:disabled {
+    background-color: #999999;
+    cursor: not-allowed;
+}
+
+.valid-input {
+    border-color: var(--bd-pink);
+}
+
+.divider {
+    height: 2px;
+    background-color: white;
+    border: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.nopad {
+    margin-top: 0px;
+    padding: 0px;
+}
+
+/* Optional custom styles */
+.custom-modal-content {
+    border: none;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    background-color: #222222;
+}
+
+.custom-modal-header {
+    border-bottom: none;
+    padding-bottom: 0;
+    color: #999999;
+}
+
+.custom-modal-body {
+    padding-top: 0;
+    background-color: #222222;
+}
+
+.modal-inner {
+    color: #999999;
+}
+
+.btn-close {
+    background-color: #999999;
+    color: #222222;
+}
+
+.modal-title {
+    padding: 8px;
+}
+
+p br {
+    display: block; /* Makes line-height work on br */
+    content: ""; /* Needed for some browsers */
+    margin-bottom: 0.5em;
+    line-height: 1.5;
+}
+
+#endOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 9998;
+    display: none;
+}
+
+#endPopup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: none;
+    max-width: 80%;
+    max-height: 80vh;
+    overflow-y: auto;
+    text-align: center;
+}
+
+#endPopup h4 {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+body.end-popup-open {
+    overflow: hidden;
+}
+
+#end-result {
+    display: flex;
+    align-items: center;
+}
+
+.description {
+    margin-top: 15px;
+}
+
+/* Narrow screens: the search box and the seven columns both need the room. */
+@media (max-width: 800px) {
+    .search-container {
+        width: 90%;
+    }
+
+    .guess-row td {
+        font-size: 0.6rem;
+        padding: 2px 3px;
+    }
+
+    .guess-table th {
+        font-size: 0.58rem;
+    }
+
+    .guess-row td.cell-name {
+        font-size: 0.56rem;
+    }
+}
