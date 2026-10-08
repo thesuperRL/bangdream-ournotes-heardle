@@ -101,7 +101,7 @@ hr {
 }
 
 .guess-row td {
-    padding: 4px 6px;
+    padding: 4px 5px;
     text-align: center;
     vertical-align: middle;
     font-size: 0.72rem;
@@ -109,7 +109,7 @@ hr {
     border-radius: 4px;
     background-color: #1a1a1a;
     color: #999999;
-    height: 46px;
+    height: 52px;
     /* Seven columns on a phone leave the school names narrower than the words
        themselves, so long names break mid-word rather than overflow the cell.
        hyphens:auto does not help: these are proper nouns with no dictionary
@@ -153,13 +153,30 @@ hr {
     white-space: pre-line;
 }
 
-/* Logos are wide artwork on transparent backgrounds; the filter makes them
-   white so they read against both the dark cell and the pink match cell. */
+/* Band logos are full-colour artwork on transparent backgrounds. They used to
+   be flattened to white silhouettes, which destroyed every logo with internal
+   detail: Ikka Dumb Rock! collapsed into an unreadable blob and Ave Mujica
+   lost its filigree. Shown in colour they stay legible on the dark cell, the
+   dim-pink cell and the full-pink match cell alike.
+
+   The brightness lift is for millsage and Ave Mujica, whose deep purples sit
+   too close to the cell background otherwise. 1.6 clears them without blowing
+   out the already-light MyGO!!!!! and MewType marks. */
 .guess-row td.cell-band img {
-    height: 26px;
-    max-width: 100%;
+    display: block;
+    /* A fixed box with object-fit rather than a fixed height: aspect ratios
+       run from 2:1 to 3.6:1, so sizing by height alone left the wide marks
+       tiny and the tall ones oversized. */
+    width: 100%;
+    height: 38px;
     object-fit: contain;
-    filter: brightness(0) invert(1);
+    filter: brightness(1.6);
+}
+
+/* The name rides along with the logo and is normally hidden. Keying off the
+   image means removing a broken image reveals the name with no JS involved. */
+.guess-row td.cell-band img + .band-name {
+    display: none;
 }
 
 .arrow-badge {
@@ -458,5 +475,15 @@ body.end-popup-open {
 
     .guess-row td.cell-name {
         font-size: 0.56rem;
+    }
+
+    /* At this width the band column is about 42px: too narrow for any logo to
+       stay readable, so the short name takes over. */
+    .guess-row td.cell-band img {
+        display: none;
+    }
+
+    .guess-row td.cell-band img + .band-name {
+        display: block;
     }
 }

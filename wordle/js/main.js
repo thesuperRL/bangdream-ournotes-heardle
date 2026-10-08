@@ -57,6 +57,16 @@ const BAND_SLUGS = {
     'Ikka Dumb Rock!': 'ikka',
 };
 
+// Shown instead of the logo where the column is too narrow for one. Trimmed to
+// the part that identifies the band on sight; all five stay unambiguous.
+const BAND_SHORT = {
+    'MyGO!!!!!': 'MyGO',
+    'Ave Mujica': 'Ave Mujica',
+    'Mugendai MewType': 'MewType',
+    'millsage': 'millsage',
+    'Ikka Dumb Rock!': 'Ikka',
+};
+
 const searchInput = document.getElementById('search-input');
 const suggestionsContainer = document.getElementById('suggestions');
 const submitBtn = document.getElementById('submit-btn');
@@ -307,14 +317,18 @@ function fillRow(row, char) {
         ? `${primary}\n(${secondary})\n${char.stageName}`
         : `${primary}\n(${secondary})`;
 
-    // Band: the logo, falling back to the plain name if the file is missing.
+    // Band: the logo, with a short name beside it. A phone cannot give the
+    // band column enough width for a logo to stay legible, so CSS swaps to the
+    // name there. Dropping the image on error makes the name visible too,
+    // which is the fallback when a logo file is missing.
     const logo = document.createElement('img');
     logo.src = `${DATA}characters/logos/${BAND_SLUGS[char.band]}.png`;
     logo.alt = char.band;
-    logo.addEventListener('error', () => {
-        row.cells[2].textContent = char.band;
-    });
-    row.cells[2].appendChild(logo);
+    logo.addEventListener('error', () => logo.remove());
+    const bandName = document.createElement('span');
+    bandName.className = 'band-name';
+    bandName.textContent = BAND_SHORT[char.band] || char.band;
+    row.cells[2].append(logo, bandName);
     if (char.band === Answer.band) {
         row.cells[2].classList.add('match-full');
     }
