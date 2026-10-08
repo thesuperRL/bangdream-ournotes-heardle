@@ -223,8 +223,10 @@ function generatePuzzle(seed) {
 
 let CARDS = [];
 let puzzle = null;
-// placed[row][column] holds a card id or null; solved[row][column] says whether
-// that card was accepted. A wrong card stays on the board, spent.
+/* placed[row][column] is the card that settled the square, or null while it is
+   still open. missed[row][column] lists the cards already tried there and
+   rejected: they cost a life each, the last of them is what the square shows
+   while it stays open, and none of them is offered for that square again. */
 let state = null;
 let mode = 'daily';
 let over = false;
@@ -237,17 +239,25 @@ function dailyKey() {
 function emptyState() {
     return {
         placed: Array.from({ length: SIZE }, () => Array(SIZE).fill(null)),
-        solved: Array.from({ length: SIZE }, () => Array(SIZE).fill(false)),
+        missed: Array.from({ length: SIZE }, () => [[], [], []]),
         lives: LIVES,
     };
 }
 
+// What a square shows: the card that settled it, else the last card rejected
+// there, else nothing.
+function shownCard(row, column) {
+    if (state.placed[row][column] !== null) return state.placed[row][column];
+    const tried = state.missed[row][column];
+    return tried.length > 0 ? tried[tried.length - 1] : null;
+}
+
 function isOver() {
-    return state.lives <= 0 || state.solved.every(row => row.every(Boolean));
+    return state.lives <= 0 || solvedCount() === SIZE * SIZE;
 }
 
 function solvedCount() {
-    return state.solved.flat().filter(Boolean).length;
+    return state.placed.flat().filter(id => id !== null).length;
 }
 
 // Only the daily grid is worth restoring: an unlimited grid is one of millions
@@ -268,7 +278,7 @@ function loadState() {
         // Guard the shape: a half-written or older entry must not wedge the board.
         if (saved
             && Array.isArray(saved.placed) && saved.placed.length === SIZE
-            && Array.isArray(saved.solved) && saved.solved.length === SIZE
+            && Array.isArray(saved.missed) && saved.missed.length === SIZE
             && typeof saved.lives === 'number') {
             return saved;
         }
@@ -318,19 +328,20 @@ function renderGrid() {
             cell.dataset.row = row;
             cell.dataset.column = column;
 
-            const id = state.placed[row][column];
+            const solved = state.placed[row][column] !== null;
+            const id = shownCard(row, column);
             if (id !== null) {
                 const card = cardById(id);
                 const image = document.createElement('img');
                 image.src = DATA + card.thumbnail;
                 image.alt = `${card.title} — ${card.character}`;
                 cell.appendChild(image);
-                cell.classList.add(state.solved[row][column] ? 'correct' : 'wrong');
+                cell.classList.add(solved ? 'correct' : 'wrong');
             }
 
-            // A settled square is only clickable once the game is over, and
-            // then only to show what would have fitted.
-            if (!over && (state.solved[row][column] || id !== null)) {
+            // Only a solved square stops taking guesses. A square showing a
+            // rejected card is still open, so it keeps its hover affordance.
+            if (!over && solved) {
                 cell.classList.add('locked');
             }
             cell.addEventListener('click', onCellClick);
@@ -391,24 +402,18 @@ function onCellClick(event) {
         showAnswers(row, column);
         return;
     }
-    // Both a correct card and a spent wrong one settle the square for good.
+    // Only a solved square is closed; a rejected card can be guessed over.
     if (state.placed[row][column] !== null) return;
 
     selected = { row: row, column: column };
     openSearch();
 }
 
-/* Cards already placed correctly are gone from the pool: reusing one would let
-   a single card cover several squares, which is not a puzzle. A card spent on
-   a wrong square is still free to be used where it does belong. */
+/* Cards already placed are gone from the pool: reusing one would let a single
+   card cover several squares, which is not a puzzle. A card rejected somewhere
+   is still free, since it may well belong on another square. */
 function usedIds() {
-    const used = new Set();
-    for (let row = 0; row < SIZE; row++) {
-        for (let column = 0; column < SIZE; column++) {
-            if (state.solved[row][column]) used.add(state.placed[row][column]);
-        }
-    }
-    return used;
+    return new Set(state.placed.flat().filter(id => id !== null));
 }
 
 function commitGuess(id) {
@@ -420,9 +425,12 @@ function commitGuess(id) {
     const correct = cardsFor(puzzle.rows[row], puzzle.columns[column])
         .some(card => card.id === id);
 
-    state.placed[row][column] = id;
-    state.solved[row][column] = correct;
-    if (!correct) state.lives--;
+    if (correct) {
+        state.placed[row][column] = id;
+    } else {
+        state.missed[row][column].push(id);
+        state.lives--;
+    }
 
     over = isOver();
     saveState();
@@ -460,11 +468,16 @@ function openSearch() {
 
 /* Every card is offered, not just the ones that fit. Narrowing the list to the
    cards that already satisfy both clues would answer the puzzle for the player
-   and leave the three lives unspendable. The only cards held back are the ones
-   already placed correctly, since a card may not cover two squares at once. */
+   and leave the three lives unspendable.
+
+   Two sets are held back. Cards already placed, because one card may not cover
+   two squares. And the cards this square has already rejected, because a life
+   has been paid to learn they do not belong here and charging a second one for
+   the same answer is a trap, not a difficulty. */
 function candidates() {
     const used = usedIds();
-    return CARDS.filter(card => !used.has(card.id));
+    const rejected = new Set(state.missed[selected.row][selected.column]);
+    return CARDS.filter(card => !used.has(card.id) && !rejected.has(card.id));
 }
 
 function renderSuggestions(query) {
@@ -565,8 +578,8 @@ function resultGrid() {
     for (let row = 0; row < SIZE; row++) {
         let line = '';
         for (let column = 0; column < SIZE; column++) {
-            if (state.solved[row][column]) line += '\u{1F7E9}';
-            else if (state.placed[row][column] !== null) line += '\u{1F7E5}';
+            if (state.placed[row][column] !== null) line += '\u{1F7E9}';
+            else if (state.missed[row][column].length > 0) line += '\u{1F7E5}';
             else line += '\u2B1B';
         }
         lines.push(line);
