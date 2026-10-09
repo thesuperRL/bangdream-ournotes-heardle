@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Add Bootstrap Icons CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <title>BanG Dream! Our Notes Memory Cardoku</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+</head>
+<body>
+<div class="site-header">
+    <nav class="navbar navbar-expand navbar-dark bg-black">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item navbig">
+                        <a href="#" class="btn me-2 mb-2 popup-link"
+                           data-bs-toggle="modal"
+                           data-bs-target="#customModal"
+                           data-popup-title="About"
+                           data-popup-content='<p class="modal-inner"> A support card grid puzzle for BanG Dream! Our Notes, covering all 69 support cards from MyGO!!!!!, Ave Mujica, Mugendai MewType, millsage, and Ikka Dumb Rock!. <br><br> Card art and details come from bdon.moe (Moenotes). Inspired by <a href="https://www.amiya.io/arkdoku" target="_blank" rel="noopener">amiya.io/arkdoku</a>. Made by thesuperRL. <br><br> Have questions or bugs? DM thesuperRL on Discord. </p>'>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white"
+                                 class="bi bi-info-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="nav-item navbig">
+                        <a class="nav-link text-center nav-title" href="#">BANG DREAM! OUR NOTES MEMORY CARDOKU</a>
+                    </li>
+                    <li class="nav-item navbig">
+                        <a href="#" class="btn me-2 mb-2 popup-link"
+                           data-bs-toggle="modal"
+                           data-bs-target="#customModal"
+                           data-popup-title="How to Play?"
+                           data-popup-content='<p class="modal-inner"> Fill the grid with Our Notes support cards. Every card has to match its row clue and its column clue at the same time, so the card in the top left square has to satisfy the clue above it and the clue beside it. <br><br> Clues are a band, a card rarity, an attribute colour, how many members the card shows, the card&apos;s Live Support Skill, or a member the card features. Rarities are written out in full: <b>Rare</b> is the R shown in game, <b>Super Rare</b> is SR, and <b>Super Super Rare</b> is SSR. <br><br> Click an empty square and search any card by its title or by a member on it. The search lists every card, not only the ones that fit, so working out which card satisfies both clues is the game. <br><br> There is no single right answer: every square has at least two cards that fit. Unlike the member card game, a member is not used up when one of their cards is placed, so the same face can turn up in several squares at once. What leaves the pool is the card itself. <br><br> You have 3 lives. A card that does not match both clues costs one life and stays on the square greyed out, but the square is still open: click it again and try another card. A card you have already got wrong on a square will not be offered there a second time, though it may still be the answer somewhere else on the grid. <br><br> The game ends when all 9 squares are correct or all 3 lives are gone. Once it is over, click any square to see every card that would have fitted there. <br><br> Daily gives everyone the same grid each day and remembers your progress; Unlimited deals a fresh grid whenever you want one. </p>'>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white"
+                                 class="bi bi-question-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94"/>
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <hr class="divider">
+</div>
+
+<main class="container nopad">
+    <!-- Chips and squares are built by renderGrid(). -->
+    <div id="grid"></div>
+</main>
+
+<footer class="text-center">
+    <hr class="divider">
+    <div class="text-center footerdiv">
+        <div id="lives"></div>
+        <div>
+            <button id="mode-btn" class="footer-btn">Daily</button>
+            <button id="new-btn" class="footer-btn">New grid</button>
+            <button id="share-btn" class="footer-btn" disabled>Share</button>
+        </div>
+        <p class="footer-links">
+            <a href="../">All games</a>
+            <a href="credits.html">Support card sources</a>
+        </p>
+    </div>
+</footer>
+
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="customModal" tabindex="-1" aria-labelledby="customModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content custom-modal-content">
+            <div class="modal-header custom-modal-header">
+                <h5 class="modal-title text-center w-100" id="customModalLabel">Modal Title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body custom-modal-body" id="customModalBody">
+                Modal content will appear here...
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Picking a card for one square. -->
+<dialog id="search-dialog">
+    <p id="search-title"></p>
+    <input type="text" id="search-input" placeholder="Search for a card..." autocomplete="off">
+    <div id="suggestions"></div>
+</dialog>
+
+<!-- Every card that fitted a square, shown once the game is over. -->
+<dialog id="answers-dialog">
+    <h5 id="answers-title"></h5>
+    <div id="answers-list"></div>
+</dialog>
+
+<div id="endOverlay"></div>
+<div id="endPopup"></div>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

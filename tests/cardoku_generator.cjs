@@ -1,14 +1,13 @@
-/* Self-check for the cardoku grid generator against the committed dataset.
+/* Self-check for the cardoku board enumeration against the committed dataset.
  *
- * The generator draws six clues at random and retries until the nine squares
- * are jointly fillable, so a dataset change can make grids rarer without
- * making them impossible: nothing breaks, the page just stalls. This runs the
- * real generator over many seeds and fails if any seed cannot produce a grid,
- * if a grid is not actually solvable, or if the retry count has crept near
- * MAX_ATTEMPTS.
+ * Boards are enumerated rather than sampled, and the daily walks that list
+ * with a step coprime to its length. Two things have to hold for that to be
+ * worth the 180ms it costs: every enumerated board has to be a fair puzzle,
+ * and the walk has to be a genuine permutation, or the no-repeat guarantee is
+ * just a slower version of the sampler it replaced.
  *
  * main.js is a plain script that touches the DOM only inside functions, so it
- * is loaded verbatim with stubs for the two globals its top level registers
+ * is loaded verbatim with stubs for the globals its top level registers
  * against, plus an epilogue that hands back the internals.
  *
  * Run: node tests/cardoku_generator.cjs
@@ -21,19 +20,23 @@ const vm = require('vm');
 const assert = require('assert');
 
 const ROOT = path.join(__dirname, '..');
-const SEEDS = 2000;
 
 const source = fs.readFileSync(path.join(ROOT, 'cardoku/js/main.js'), 'utf8');
 const epilogue = `
-    exported.generatePuzzle = generatePuzzle;
     exported.buildClues = buildClues;
     exported.charactersFor = charactersFor;
-    exported.MAX_ATTEMPTS = MAX_ATTEMPTS;
+    exported.enumerateBoards = enumerateBoards;
+    exported.cluePool = cluePool;
+    exported.boardList = boardList;
+    exported.boardAt = boardAt;
+    exported.cycleStep = cycleStep;
+    exported.dayNumber = dayNumber;
     exported.MIN_CHARACTERS_PER_CELL = MIN_CHARACTERS_PER_CELL;
     exported.CATEGORIES = CATEGORIES;
-    exported.hash32 = hash32;
-    exported.fitsPuzzle = saved => fitsPuzzle(saved);
-    exported.setPuzzle = p => { puzzle = p; };
+    exported.saveState = () => saveState();
+    exported.loadState = () => loadState();
+    exported.emptyState = () => emptyState();
+    exported.play = (p, s) => { puzzle = p; mode = 'daily'; state = s; };
     exported.load = cards => {
         CARDS = cards;
         CHARACTER_OF = new Map(cards.map(card => [card.id, card.characterId]));
@@ -42,18 +45,22 @@ const epilogue = `
 
 const exported = {};
 const noop = () => {};
+const store = new Map();
 vm.runInNewContext(source + epilogue, {
     exported,
     document: { addEventListener: noop },
-    localStorage: { getItem: () => null, setItem: noop },
+    localStorage: {
+        getItem: key => (store.has(key) ? store.get(key) : null),
+        setItem: (key, value) => store.set(key, value),
+    },
 });
 
 const cards = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/cards/cards.json'), 'utf8'));
 exported.load(cards);
 
 // Every category has to contribute clues, otherwise a field was renamed in the
-// dataset and the generator silently lost an axis.
-const pool = exported.buildClues(cards);
+// dataset and the game silently lost an axis.
+const pool = exported.cluePool();
 const byCategory = new Map();
 for (const clue of pool) {
     byCategory.set(clue.category, (byCategory.get(clue.category) || 0) + 1);
@@ -65,14 +72,14 @@ for (const category of exported.CATEGORIES) {
     );
 }
 
-/* A grid is only honest if the nine squares can be filled with nine different
-   characters at once. Re-derived here from the puzzle the generator returns,
-   so the check does not trust the generator's own bookkeeping. */
-function solvable(puzzle) {
+/* A board is only honest if the nine squares can be filled with nine different
+   characters at once. Re-derived here from the clue index triples, so the
+   check does not trust the enumeration's own bookkeeping. */
+function solvable(rows, columns) {
     const options = [];
-    for (const row of puzzle.rows) {
-        for (const column of puzzle.columns) {
-            const characters = exported.charactersFor(row, column);
+    for (const row of rows) {
+        for (const column of columns) {
+            const characters = exported.charactersFor(pool[row], pool[column]);
             if (characters.size < exported.MIN_CHARACTERS_PER_CELL) return false;
             options.push([...characters]);
         }
@@ -92,59 +99,113 @@ function solvable(puzzle) {
     return options.every((_, square) => claim(square, new Set()));
 }
 
-const categoriesSeen = new Set();
-let failures = 0;
-for (let seed = 0; seed < SEEDS; seed++) {
-    const puzzle = exported.generatePuzzle(seed);
-    if (puzzle === null) {
-        failures++;
-        continue;
-    }
-    if (!solvable(puzzle)) {
-        throw new Error(`seed ${seed} produced an unsolvable grid`);
-    }
-    // No category may sit on a row and a column at once: such a square wants a
-    // card that is two things at once and can never be filled.
-    const rows = new Set(puzzle.rows.map(clue => clue.category));
-    for (const clue of puzzle.columns) {
-        assert.ok(!rows.has(clue.category), `seed ${seed} repeats ${clue.category} on both axes`);
-        categoriesSeen.add(clue.category);
-    }
-    for (const clue of puzzle.rows) categoriesSeen.add(clue.category);
-    // Nor may an axis be one category all the way down: three clues that all
-    // read the same are one question asked three times.
-    const columns = new Set(puzzle.columns.map(clue => clue.category));
-    assert.ok(rows.size >= 2, `seed ${seed} has a ${[...rows][0]}-only row axis`);
-    assert.ok(columns.size >= 2, `seed ${seed} has a ${[...columns][0]}-only column axis`);
-}
+const boards = exported.boardList();
+assert.ok(boards.length > 0, 'no boards were enumerated at all');
 
-assert.strictEqual(failures, 0, `${failures}/${SEEDS} seeds produced no grid`);
+const categoriesSeen = new Set();
+const canonical = new Set();
+for (let index = 0; index < boards.length; index++) {
+    const { rows, columns } = boards[index];
+    assert.ok(solvable(rows, columns), `board ${index} cannot be filled with nine characters`);
+
+    // Six clues, six different categories. Across the axes a repeat is an
+    // unfillable square; down one axis it is the same question asked twice.
+    const used = [...rows, ...columns].map(i => pool[i].category);
+    assert.strictEqual(new Set(used).size, 6, `board ${index} repeats a category`);
+    for (const category of used) categoriesSeen.add(category);
+
+    /* A board and its transpose are the same puzzle. If both were listed, the
+       cycle would serve a player the same grid twice, flipped, and still call
+       the guarantee kept. */
+    const key = [rows.join(','), columns.join(',')].sort().join(' x ');
+    assert.ok(!canonical.has(key), `board ${index} is the transpose of an earlier one`);
+    canonical.add(key);
+}
 assert.strictEqual(
     categoriesSeen.size,
     exported.CATEGORIES.length,
-    `only ${[...categoriesSeen].join(', ')} ever reached a grid`
+    `only ${[...categoriesSeen].join(', ')} ever reach a board`
 );
+
+/* The whole point: walking the list by a coprime step visits every board once
+   before it visits any board twice. Checked over a full cycle, not sampled. */
+const step = exported.cycleStep(boards.length);
+const gcd = (a, b) => (b === 0 ? a : gcd(b, a % b));
+assert.strictEqual(gcd(step, boards.length), 1, `step ${step} does not generate the full cycle`);
+
+const visited = new Uint8Array(boards.length);
+for (let day = 0; day < boards.length; day++) {
+    const index = (day * step) % boards.length;
+    assert.strictEqual(visited[index], 0, `board ${index} came up twice within one cycle, on day ${day}`);
+    visited[index] = 1;
+}
+assert.ok(visited.every(seen => seen === 1), 'the cycle never reached some boards');
+
+/* Orientation is cosmetic. Two different seeds may lay the same board out
+   differently, but they have to be the same six clues: otherwise the cycle is
+   not walking the list it thinks it is. */
+const labelsOf = puzzle => [...puzzle.rows, ...puzzle.columns].map(clue => clue.label).sort().join('|');
+for (const index of [0, 1, 7, boards.length - 1]) {
+    const expected = [...boards[index].rows, ...boards[index].columns]
+        .map(i => pool[i].label).sort().join('|');
+    for (const seed of [0, 12345, 0xdeadbeef]) {
+        assert.strictEqual(
+            labelsOf(exported.boardAt(index, seed)),
+            expected,
+            `boardAt(${index}, ${seed}) served a different board`
+        );
+    }
+}
+
+// An index outside the list has to wrap rather than hand back nothing: the
+// daily multiplies the day number by the step and never reduces it first.
+assert.ok(exported.boardAt(boards.length * 3 + 2, 1).rows.length === 3, 'an out-of-range index did not wrap');
 
 /* A saved daily board is replayed onto a grid rebuilt from the card data, so
-   a dataset refresh can hand the same day a different grid. Placements that
-   no longer satisfy their square have to be rejected, or they come back
-   marked correct under clues they do not meet. */
-const grid = exported.generatePuzzle(0);
-exported.setPuzzle(grid);
-const blank = { placed: [[null, null, null], [null, null, null], [null, null, null]] };
-assert.ok(exported.fitsPuzzle(blank), 'an empty board was rejected');
+   a dataset refresh or a change to the enumeration can hand the same day a
+   different grid. The save is stamped with a fingerprint of the grid it was
+   played on, and a board that does not match has to be dropped: replaying it
+   would show placed cards as correct under clues they do not satisfy, and
+   would carry over lives spent on a grid that no longer exists. */
+const gridA = exported.boardAt(0, 0);
+const gridB = exported.boardAt(1, 0);
 
-const topLeft = cards.find(card => grid.rows[0].ids.has(card.id) && grid.columns[0].ids.has(card.id));
-const elsewhere = cards.find(card => !grid.rows[0].ids.has(card.id) || !grid.columns[0].ids.has(card.id));
-assert.ok(
-    exported.fitsPuzzle({ placed: [[topLeft.id, null, null], [null, null, null], [null, null, null]] }),
-    'a placement that still satisfies both clues was discarded'
-);
-assert.ok(
-    !exported.fitsPuzzle({ placed: [[elsewhere.id, null, null], [null, null, null], [null, null, null]] }),
-    'a placement that no longer satisfies its clues was kept'
+const played = exported.emptyState();
+const topLeft = cards.find(card => gridA.rows[0].ids.has(card.id) && gridA.columns[0].ids.has(card.id));
+played.placed[0][0] = topLeft.id;
+played.lives = 2;
+
+exported.play(gridA, played);
+exported.saveState();
+assert.strictEqual(
+    exported.loadState().placed[0][0],
+    topLeft.id,
+    'a board saved and reloaded on the same grid did not come back'
 );
 
-console.log(`${cards.length} cards, ${pool.length} clues`);
+exported.play(gridB, played);
+assert.deepStrictEqual(
+    exported.loadState(),
+    exported.emptyState(),
+    'a board saved on a different grid was replayed onto this one'
+);
+
+/* The same six clues with different cards behind them is still a different
+   grid: a card whose attribute changed in the data leaves every label alone
+   while changing what the clue accepts. */
+const shifted = {
+    rows: gridA.rows.map(clue => ({ ...clue, ids: new Set(clue.ids) })),
+    columns: gridA.columns,
+};
+shifted.rows[0].ids.delete([...shifted.rows[0].ids][0]);
+exported.play(shifted, played);
+assert.deepStrictEqual(
+    exported.loadState(),
+    exported.emptyState(),
+    'a save survived a clue that accepts a different set of cards'
+);
+
+const years = (boards.length / 365.2425).toFixed(1);
+console.log(`${cards.length} cards, ${pool.length} clues, ${boards.length} boards`);
 console.log(`  clues per category: ${[...byCategory].map(([c, n]) => `${c} ${n}`).join(', ')}`);
-console.log(`  ${SEEDS} seeds, all solvable, all ${categoriesSeen.size} categories used`);
+console.log(`  cycle step ${step}: every board once in ${boards.length} days (${years} years)`);

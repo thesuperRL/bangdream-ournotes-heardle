@@ -1,0 +1,1077 @@
+[
+  {
+    "id": 1,
+    "title": "I Want to Be Human",
+    "characters": [
+      "Tomori Takamatsu"
+    ],
+    "characterCount": 1,
+    "band": "MyGO!!!!!",
+    "bandColor": "#3388BB",
+    "rarity": "R",
+    "rarityName": "Rare",
+    "attribute": "Purple",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/1.webp"
+  },
+  {
+    "id": 2,
+    "title": "Full-on Cuteness♡",
+    "characters": [
+      "Anon Chihaya"
+    ],
+    "characterCount": 1,
+    "band": "MyGO!!!!!",
+    "bandColor": "#3388BB",
+    "rarity": "R",
+    "rarityName": "Rare",
+    "attribute": "Red",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/2.webp"
+  },
+  {
+    "id": 3,
+    "title": "Wandering Cat",
+    "characters": [
+      "Rāna Kaname"
+    ],
+    "characterCount": 1,
+    "band": "MyGO!!!!!",
+    "bandColor": "#3388BB",
+    "rarity": "R",
+    "rarityName": "Rare",
+    "attribute": "Blue",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/3.webp"
+  },
+  {
+    "id": 4,
+    "title": "A Polished Smile",
+    "characters": [
+      "Soyo Nagasaki"
+    ],
+    "characterCount": 1,
+    "band": "MyGO!!!!!",
+    "bandColor": "#3388BB",
+    "rarity": "R",
+    "rarityName": "Rare",
+    "attribute": "Yellow",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/4.webp"
+  },
+  {
+    "id": 5,
+    "title": "Stand My Ground",
+    "characters": [
+      "Taki Shiina"
+    ],
+    "characterCount": 1,
+    "band": "MyGO!!!!!",
+    "bandColor": "#3388BB",
+    "rarity": "R",
+    "rarityName": "Rare",
+    "attribute": "Green",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/5.webp"
+  },
+  {
+    "id": 6,
+    "title": "Beyond Her Gaze",
+    "characters": [
+      "Doloris / Uika Misumi"
+    ],
+    "characterCount": 1,
+    "band": "Ave Mujica",
+    "bandColor": "#881144",
+    "rarity": "R",
+    "rarityName": "Rare",
+    "attribute": "Purple",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/6.webp"
+  },
+  {
+    "id": 7,
+    "title": "Quiet Presence",
+    "characters": [
+      "Mortis / Mutsumi Wakaba"
+    ],
+    "characterCount": 1,
+    "band": "Ave Mujica",
+    "bandColor": "#881144",
+    "rarity": "R",
+    "rarityName": "Rare",
+    "attribute": "Green",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/7.webp"
+  },
+  {
+    "id": 8,
+    "title": "At Arm's Length",
+    "characters": [
+      "Timoris / Umiri Yahata"
+    ],
+    "characterCount": 1,
+    "band": "Ave Mujica",
+    "bandColor": "#881144",
+    "rarity": "R",
+    "rarityName": "Rare",
+    "attribute": "Blue",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/8.webp"
+  },
+  {
+    "id": 9,
+    "title": "Perfect Angle",
+    "characters": [
+      "Amoris / Nyamu Yūtenji"
+    ],
+    "characterCount": 1,
+    "band": "Ave Mujica",
+    "bandColor": "#881144",
+    "rarity": "R",
+    "rarityName": "Rare",
+    "attribute": "Yellow",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/9.webp"
+  },
+  {
+    "id": 10,
+    "title": "Noble Grace",
+    "characters": [
+      "Oblivionis / Sakiko Togawa"
+    ],
+    "characterCount": 1,
+    "band": "Ave Mujica",
+    "bandColor": "#881144",
+    "rarity": "R",
+    "rarityName": "Rare",
+    "attribute": "Red",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/10.webp"
+  },
+  {
+    "id": 11,
+    "title": "I Wanna Chat!",
+    "characters": [
+      "Arale Nakamachi"
+    ],
+    "characterCount": 1,
+    "band": "Mugendai MewType",
+    "bandColor": "#FF7788",
+    "rarity": "R",
+    "rarityName": "Rare",
+    "attribute": "Blue",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/11.webp"
+  },
+  {
+    "id": 12,
+    "title": "Excitement, Here I Come!",
+    "characters": [
+      "Nonoka Miyanaga"
+    ],
+    "characterCount": 1,
+    "band": "Mugendai MewType",
+    "bandColor": "#FF7788",
+    "rarity": "R",
+    "rarityName": "Rare",
+    "attribute": "Red",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/12.webp"
+  },
+  {
+    "id": 13,
+    "title": "An Earnest Spark",
+    "characters": [
+      "Ritsu Minetsuki"
+    ],
+    "characterCount": 1,
+    "band": "Mugendai MewType",
+    "bandColor": "#FF7788",
+    "rarity": "R",
+    "rarityName": "Rare",
+    "attribute": "Yellow",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/13.webp"
+  },
+  {
+    "id": 14,
+    "title": "Quiet at First Glance",
+    "characters": [
+      "Miyako Fuji"
+    ],
+    "characterCount": 1,
+    "band": "Mugendai MewType",
+    "bandColor": "#FF7788",
+    "rarity": "R",
+    "rarityName": "Rare",
+    "attribute": "Purple",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/14.webp"
+  },
+  {
+    "id": 15,
+    "title": "Laid-Back and Low-Key",
+    "characters": [
+      "Yuno Sengoku"
+    ],
+    "characterCount": 1,
+    "band": "Mugendai MewType",
+    "bandColor": "#FF7788",
+    "rarity": "R",
+    "rarityName": "Rare",
+    "attribute": "Green",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/15.webp"
+  },
+  {
+    "id": 16,
+    "title": "Innocent Light",
+    "characters": [
+      "Hotaru Shiomi"
+    ],
+    "characterCount": 1,
+    "band": "millsage",
+    "bandColor": "#AA22EE",
+    "rarity": "R",
+    "rarityName": "Rare",
+    "attribute": "Blue",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/16.webp"
+  },
+  {
+    "id": 17,
+    "title": "Fierce Fighting Spirit",
+    "characters": [
+      "Natsume Izawa"
+    ],
+    "characterCount": 1,
+    "band": "millsage",
+    "bandColor": "#AA22EE",
+    "rarity": "R",
+    "rarityName": "Rare",
+    "attribute": "Yellow",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/17.webp"
+  },
+  {
+    "id": 18,
+    "title": "A Mature Gaze",
+    "characters": [
+      "Nagi Kotohira"
+    ],
+    "characterCount": 1,
+    "band": "millsage",
+    "bandColor": "#AA22EE",
+    "rarity": "R",
+    "rarityName": "Rare",
+    "attribute": "Purple",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/18.webp"
+  },
+  {
+    "id": 19,
+    "title": "The Smiling Organizer",
+    "characters": [
+      "Mahoro Hamasaki"
+    ],
+    "characterCount": 1,
+    "band": "millsage",
+    "bandColor": "#AA22EE",
+    "rarity": "R",
+    "rarityName": "Rare",
+    "attribute": "Red",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/19.webp"
+  },
+  {
+    "id": 20,
+    "title": "Beneath the Beauty",
+    "characters": [
+      "Houka Izumi"
+    ],
+    "characterCount": 1,
+    "band": "millsage",
+    "bandColor": "#AA22EE",
+    "rarity": "R",
+    "rarityName": "Rare",
+    "attribute": "Green",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/20.webp"
+  },
+  {
+    "id": 21,
+    "title": "PEACE, Let's Go!",
+    "characters": [
+      "Raika Suga"
+    ],
+    "characterCount": 1,
+    "band": "Ikka Dumb Rock!",
+    "bandColor": "#FFAA33",
+    "rarity": "R",
+    "rarityName": "Rare",
+    "attribute": "Purple",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/21.webp"
+  },
+  {
+    "id": 22,
+    "title": "Deceptive Kindness",
+    "characters": [
+      "Miku Mahashi"
+    ],
+    "characterCount": 1,
+    "band": "Ikka Dumb Rock!",
+    "bandColor": "#FFAA33",
+    "rarity": "R",
+    "rarityName": "Rare",
+    "attribute": "Blue",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/22.webp"
+  },
+  {
+    "id": 23,
+    "title": "Armor for a Timid Heart",
+    "characters": [
+      "Yomogi Yakura"
+    ],
+    "characterCount": 1,
+    "band": "Ikka Dumb Rock!",
+    "bandColor": "#FFAA33",
+    "rarity": "R",
+    "rarityName": "Rare",
+    "attribute": "Green",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/23.webp"
+  },
+  {
+    "id": 24,
+    "title": "Chieri Union Leader!",
+    "characters": [
+      "Chieri Umezato"
+    ],
+    "characterCount": 1,
+    "band": "Ikka Dumb Rock!",
+    "bandColor": "#FFAA33",
+    "rarity": "R",
+    "rarityName": "Rare",
+    "attribute": "Yellow",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/24.webp"
+  },
+  {
+    "id": 25,
+    "title": "A Sheltered Princess",
+    "characters": [
+      "Shizuku Shinomiya"
+    ],
+    "characterCount": 1,
+    "band": "Ikka Dumb Rock!",
+    "bandColor": "#FFAA33",
+    "rarity": "R",
+    "rarityName": "Rare",
+    "attribute": "Red",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/25.webp"
+  },
+  {
+    "id": 26,
+    "title": "Favorite Penguins",
+    "characters": [
+      "Tomori Takamatsu"
+    ],
+    "characterCount": 1,
+    "band": "MyGO!!!!!",
+    "bandColor": "#3388BB",
+    "rarity": "SR",
+    "rarityName": "Super Rare",
+    "attribute": "Green",
+    "liveSkill": "Hit Support",
+    "thumbnail": "support-cards/thumbnails/26.webp"
+  },
+  {
+    "id": 27,
+    "title": "GREAT IDEA!!!!!",
+    "characters": [
+      "Anon Chihaya"
+    ],
+    "characterCount": 1,
+    "band": "MyGO!!!!!",
+    "bandColor": "#3388BB",
+    "rarity": "SR",
+    "rarityName": "Super Rare",
+    "attribute": "Yellow",
+    "liveSkill": "Life Recovery",
+    "thumbnail": "support-cards/thumbnails/27.webp"
+  },
+  {
+    "id": 28,
+    "title": "Third Grade",
+    "characters": [
+      "Rāna Kaname"
+    ],
+    "characterCount": 1,
+    "band": "MyGO!!!!!",
+    "bandColor": "#3388BB",
+    "rarity": "SR",
+    "rarityName": "Super Rare",
+    "attribute": "Purple",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/28.webp"
+  },
+  {
+    "id": 29,
+    "title": "Won't Let Go",
+    "characters": [
+      "Soyo Nagasaki"
+    ],
+    "characterCount": 1,
+    "band": "MyGO!!!!!",
+    "bandColor": "#3388BB",
+    "rarity": "SR",
+    "rarityName": "Super Rare",
+    "attribute": "Blue",
+    "liveSkill": "Life Recovery",
+    "thumbnail": "support-cards/thumbnails/29.webp"
+  },
+  {
+    "id": 30,
+    "title": "For the word to resound",
+    "characters": [
+      "Taki Shiina"
+    ],
+    "characterCount": 1,
+    "band": "MyGO!!!!!",
+    "bandColor": "#3388BB",
+    "rarity": "SR",
+    "rarityName": "Super Rare",
+    "attribute": "Red",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/30.webp"
+  },
+  {
+    "id": 31,
+    "title": "A Starlover's Lie",
+    "characters": [
+      "Doloris / Uika Misumi"
+    ],
+    "characterCount": 1,
+    "band": "Ave Mujica",
+    "bandColor": "#881144",
+    "rarity": "SR",
+    "rarityName": "Super Rare",
+    "attribute": "Green",
+    "liveSkill": "Hit Support",
+    "thumbnail": "support-cards/thumbnails/31.webp"
+  },
+  {
+    "id": 32,
+    "title": "With Eyes Closed",
+    "characters": [
+      "Mortis / Mutsumi Wakaba"
+    ],
+    "characterCount": 1,
+    "band": "Ave Mujica",
+    "bandColor": "#881144",
+    "rarity": "SR",
+    "rarityName": "Super Rare",
+    "attribute": "Red",
+    "liveSkill": "Hit Support",
+    "thumbnail": "support-cards/thumbnails/32.webp"
+  },
+  {
+    "id": 33,
+    "title": "Retail Therapy",
+    "characters": [
+      "Timoris / Umiri Yahata"
+    ],
+    "characterCount": 1,
+    "band": "Ave Mujica",
+    "bandColor": "#881144",
+    "rarity": "SR",
+    "rarityName": "Super Rare",
+    "attribute": "Blue",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/33.webp"
+  },
+  {
+    "id": 34,
+    "title": "Off the Record",
+    "characters": [
+      "Amoris / Nyamu Yūtenji"
+    ],
+    "characterCount": 1,
+    "band": "Ave Mujica",
+    "bandColor": "#881144",
+    "rarity": "SR",
+    "rarityName": "Super Rare",
+    "attribute": "Purple",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/34.webp"
+  },
+  {
+    "id": 35,
+    "title": "Cry Against Fate",
+    "characters": [
+      "Oblivionis / Sakiko Togawa"
+    ],
+    "characterCount": 1,
+    "band": "Ave Mujica",
+    "bandColor": "#881144",
+    "rarity": "SR",
+    "rarityName": "Super Rare",
+    "attribute": "Yellow",
+    "liveSkill": "Life Recovery",
+    "thumbnail": "support-cards/thumbnails/35.webp"
+  },
+  {
+    "id": 36,
+    "title": "Becoming Myself",
+    "characters": [
+      "Arale Nakamachi"
+    ],
+    "characterCount": 1,
+    "band": "Mugendai MewType",
+    "bandColor": "#FF7788",
+    "rarity": "SR",
+    "rarityName": "Super Rare",
+    "attribute": "Yellow",
+    "liveSkill": "Life Recovery",
+    "thumbnail": "support-cards/thumbnails/36.webp"
+  },
+  {
+    "id": 37,
+    "title": "Jeeeeeez~~~~~~~~!!",
+    "characters": [
+      "Nonoka Miyanaga"
+    ],
+    "characterCount": 1,
+    "band": "Mugendai MewType",
+    "bandColor": "#FF7788",
+    "rarity": "SR",
+    "rarityName": "Super Rare",
+    "attribute": "Blue",
+    "liveSkill": "Hit Support",
+    "thumbnail": "support-cards/thumbnails/37.webp"
+  },
+  {
+    "id": 38,
+    "title": "A Sound I Hope Won't Reach You",
+    "characters": [
+      "Ritsu Minetsuki"
+    ],
+    "characterCount": 1,
+    "band": "Mugendai MewType",
+    "bandColor": "#FF7788",
+    "rarity": "SR",
+    "rarityName": "Super Rare",
+    "attribute": "Green",
+    "liveSkill": "Life Recovery",
+    "thumbnail": "support-cards/thumbnails/38.webp"
+  },
+  {
+    "id": 39,
+    "title": "Miyako Fuji Stands Here!!!",
+    "characters": [
+      "Miyako Fuji"
+    ],
+    "characterCount": 1,
+    "band": "Mugendai MewType",
+    "bandColor": "#FF7788",
+    "rarity": "SR",
+    "rarityName": "Super Rare",
+    "attribute": "Red",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/39.webp"
+  },
+  {
+    "id": 40,
+    "title": "The Sound of a New Beginning",
+    "characters": [
+      "Yuno Sengoku"
+    ],
+    "characterCount": 1,
+    "band": "Mugendai MewType",
+    "bandColor": "#FF7788",
+    "rarity": "SR",
+    "rarityName": "Super Rare",
+    "attribute": "Purple",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/40.webp"
+  },
+  {
+    "id": 41,
+    "title": "A Brand-New View",
+    "characters": [
+      "Hotaru Shiomi"
+    ],
+    "characterCount": 1,
+    "band": "millsage",
+    "bandColor": "#AA22EE",
+    "rarity": "SR",
+    "rarityName": "Super Rare",
+    "attribute": "Blue",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/41.webp"
+  },
+  {
+    "id": 42,
+    "title": "I Won't Let the Match End",
+    "characters": [
+      "Natsume Izawa"
+    ],
+    "characterCount": 1,
+    "band": "millsage",
+    "bandColor": "#AA22EE",
+    "rarity": "SR",
+    "rarityName": "Super Rare",
+    "attribute": "Yellow",
+    "liveSkill": "Hit Support",
+    "thumbnail": "support-cards/thumbnails/42.webp"
+  },
+  {
+    "id": 43,
+    "title": "Bearing Interwoven Feelings",
+    "characters": [
+      "Nagi Kotohira"
+    ],
+    "characterCount": 1,
+    "band": "millsage",
+    "bandColor": "#AA22EE",
+    "rarity": "SR",
+    "rarityName": "Super Rare",
+    "attribute": "Purple",
+    "liveSkill": "Life Recovery",
+    "thumbnail": "support-cards/thumbnails/43.webp"
+  },
+  {
+    "id": 44,
+    "title": "Why...? Just Why...?!",
+    "characters": [
+      "Mahoro Hamasaki"
+    ],
+    "characterCount": 1,
+    "band": "millsage",
+    "bandColor": "#AA22EE",
+    "rarity": "SR",
+    "rarityName": "Super Rare",
+    "attribute": "Green",
+    "liveSkill": "Life Recovery",
+    "thumbnail": "support-cards/thumbnails/44.webp"
+  },
+  {
+    "id": 45,
+    "title": "Longing for Blazing Talent",
+    "characters": [
+      "Houka Izumi"
+    ],
+    "characterCount": 1,
+    "band": "millsage",
+    "bandColor": "#AA22EE",
+    "rarity": "SR",
+    "rarityName": "Super Rare",
+    "attribute": "Red",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/45.webp"
+  },
+  {
+    "id": 46,
+    "title": "This Is the One!",
+    "characters": [
+      "Raika Suga"
+    ],
+    "characterCount": 1,
+    "band": "Ikka Dumb Rock!",
+    "bandColor": "#FFAA33",
+    "rarity": "SR",
+    "rarityName": "Super Rare",
+    "attribute": "Blue",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/46.webp"
+  },
+  {
+    "id": 47,
+    "title": "A Song That Suits Them",
+    "characters": [
+      "Miku Mahashi"
+    ],
+    "characterCount": 1,
+    "band": "Ikka Dumb Rock!",
+    "bandColor": "#FFAA33",
+    "rarity": "SR",
+    "rarityName": "Super Rare",
+    "attribute": "Yellow",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/47.webp"
+  },
+  {
+    "id": 48,
+    "title": "Becoming a Stronger Me",
+    "characters": [
+      "Yomogi Yakura"
+    ],
+    "characterCount": 1,
+    "band": "Ikka Dumb Rock!",
+    "bandColor": "#FFAA33",
+    "rarity": "SR",
+    "rarityName": "Super Rare",
+    "attribute": "Purple",
+    "liveSkill": "Life Recovery",
+    "thumbnail": "support-cards/thumbnails/48.webp"
+  },
+  {
+    "id": 49,
+    "title": "Chieri Will Praise You!!",
+    "characters": [
+      "Chieri Umezato"
+    ],
+    "characterCount": 1,
+    "band": "Ikka Dumb Rock!",
+    "bandColor": "#FFAA33",
+    "rarity": "SR",
+    "rarityName": "Super Rare",
+    "attribute": "Red",
+    "liveSkill": "Hit Support",
+    "thumbnail": "support-cards/thumbnails/49.webp"
+  },
+  {
+    "id": 50,
+    "title": "Getting to Know My Family",
+    "characters": [
+      "Shizuku Shinomiya"
+    ],
+    "characterCount": 1,
+    "band": "Ikka Dumb Rock!",
+    "bandColor": "#FFAA33",
+    "rarity": "SR",
+    "rarityName": "Super Rare",
+    "attribute": "Green",
+    "liveSkill": "Life Recovery",
+    "thumbnail": "support-cards/thumbnails/50.webp"
+  },
+  {
+    "id": 51,
+    "title": "Wavering for a Lifetime",
+    "characters": [
+      "Tomori Takamatsu",
+      "Anon Chihaya",
+      "Rāna Kaname",
+      "Soyo Nagasaki",
+      "Taki Shiina"
+    ],
+    "characterCount": 5,
+    "band": "MyGO!!!!!",
+    "bandColor": "#3388BB",
+    "rarity": "SSR",
+    "rarityName": "Super Super Rare",
+    "attribute": "Red",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/51.webp"
+  },
+  {
+    "id": 52,
+    "title": "Hand in Hand",
+    "characters": [
+      "Tomori Takamatsu",
+      "Anon Chihaya"
+    ],
+    "characterCount": 2,
+    "band": "MyGO!!!!!",
+    "bandColor": "#3388BB",
+    "rarity": "SSR",
+    "rarityName": "Super Super Rare",
+    "attribute": "Blue",
+    "liveSkill": "Life Recovery",
+    "thumbnail": "support-cards/thumbnails/52.webp"
+  },
+  {
+    "id": 53,
+    "title": "Carpe Diem Feast",
+    "characters": [
+      "Doloris / Uika Misumi",
+      "Mortis / Mutsumi Wakaba",
+      "Timoris / Umiri Yahata",
+      "Amoris / Nyamu Yūtenji",
+      "Oblivionis / Sakiko Togawa"
+    ],
+    "characterCount": 5,
+    "band": "Ave Mujica",
+    "bandColor": "#881144",
+    "rarity": "SSR",
+    "rarityName": "Super Super Rare",
+    "attribute": "Green",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/53.webp"
+  },
+  {
+    "id": 54,
+    "title": "In Our Reverie",
+    "characters": [
+      "Doloris / Uika Misumi",
+      "Oblivionis / Sakiko Togawa"
+    ],
+    "characterCount": 2,
+    "band": "Ave Mujica",
+    "bandColor": "#881144",
+    "rarity": "SSR",
+    "rarityName": "Super Super Rare",
+    "attribute": "Purple",
+    "liveSkill": "Hit Support",
+    "thumbnail": "support-cards/thumbnails/54.webp"
+  },
+  {
+    "id": 55,
+    "title": "Dreams Upon Dreams, Mugendai!",
+    "characters": [
+      "Arale Nakamachi",
+      "Nonoka Miyanaga",
+      "Ritsu Minetsuki",
+      "Miyako Fuji",
+      "Yuno Sengoku"
+    ],
+    "characterCount": 5,
+    "band": "Mugendai MewType",
+    "bandColor": "#FF7788",
+    "rarity": "SSR",
+    "rarityName": "Super Super Rare",
+    "attribute": "Purple",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/55.webp"
+  },
+  {
+    "id": 56,
+    "title": "Sea at Night, Bonfire, and Youth",
+    "characters": [
+      "Nonoka Miyanaga",
+      "Miyako Fuji",
+      "Yuno Sengoku"
+    ],
+    "characterCount": 3,
+    "band": "Mugendai MewType",
+    "bandColor": "#FF7788",
+    "rarity": "SSR",
+    "rarityName": "Super Super Rare",
+    "attribute": "Red",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/56.webp"
+  },
+  {
+    "id": 57,
+    "title": "Only For That Happy Ending",
+    "characters": [
+      "Hotaru Shiomi"
+    ],
+    "characterCount": 1,
+    "band": "millsage",
+    "bandColor": "#AA22EE",
+    "rarity": "SSR",
+    "rarityName": "Super Super Rare",
+    "attribute": "Purple",
+    "liveSkill": "Life Recovery",
+    "thumbnail": "support-cards/thumbnails/57.webp"
+  },
+  {
+    "id": 58,
+    "title": "We're the Stars of the Story",
+    "characters": [
+      "Natsume Izawa",
+      "Nagi Kotohira",
+      "Mahoro Hamasaki",
+      "Houka Izumi"
+    ],
+    "characterCount": 4,
+    "band": "millsage",
+    "bandColor": "#AA22EE",
+    "rarity": "SSR",
+    "rarityName": "Super Super Rare",
+    "attribute": "Red",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/58.webp"
+  },
+  {
+    "id": 59,
+    "title": "A Cherished Place for You",
+    "characters": [
+      "Raika Suga"
+    ],
+    "characterCount": 1,
+    "band": "Ikka Dumb Rock!",
+    "bandColor": "#FFAA33",
+    "rarity": "SSR",
+    "rarityName": "Super Super Rare",
+    "attribute": "Yellow",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/59.webp"
+  },
+  {
+    "id": 60,
+    "title": "Finally, I Can Say I'm Home",
+    "characters": [
+      "Raika Suga",
+      "Miku Mahashi",
+      "Yomogi Yakura",
+      "Chieri Umezato",
+      "Shizuku Shinomiya"
+    ],
+    "characterCount": 5,
+    "band": "Ikka Dumb Rock!",
+    "bandColor": "#FFAA33",
+    "rarity": "SSR",
+    "rarityName": "Super Super Rare",
+    "attribute": "Green",
+    "liveSkill": "Life Recovery",
+    "thumbnail": "support-cards/thumbnails/60.webp"
+  },
+  {
+    "id": 61,
+    "title": "Pre-registration KV",
+    "characters": [
+      "Tomori Takamatsu",
+      "Oblivionis / Sakiko Togawa",
+      "Arale Nakamachi",
+      "Hotaru Shiomi",
+      "Raika Suga"
+    ],
+    "characterCount": 5,
+    "band": "MyGO!!!!!",
+    "bandColor": "#3388BB",
+    "rarity": "EX",
+    "rarityName": "Special",
+    "attribute": "Blue",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/61.webp"
+  },
+  {
+    "id": 62,
+    "title": "Heart Ablaze in Blue",
+    "characters": [
+      "Yuno Sengoku"
+    ],
+    "characterCount": 1,
+    "band": "Mugendai MewType",
+    "bandColor": "#FF7788",
+    "rarity": "SSR",
+    "rarityName": "Super Super Rare",
+    "attribute": "Blue",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/62.webp"
+  },
+  {
+    "id": 63,
+    "title": "Magical Physical Cheer!",
+    "characters": [
+      "Arale Nakamachi",
+      "Nonoka Miyanaga",
+      "Ritsu Minetsuki",
+      "Miyako Fuji"
+    ],
+    "characterCount": 4,
+    "band": "Mugendai MewType",
+    "bandColor": "#FF7788",
+    "rarity": "SSR",
+    "rarityName": "Super Super Rare",
+    "attribute": "Blue",
+    "liveSkill": "Hit Support",
+    "thumbnail": "support-cards/thumbnails/63.webp"
+  },
+  {
+    "id": 64,
+    "title": "A Round & Sweet Break",
+    "characters": [
+      "Miyako Fuji",
+      "Ritsu Minetsuki"
+    ],
+    "characterCount": 2,
+    "band": "Mugendai MewType",
+    "bandColor": "#FF7788",
+    "rarity": "SR",
+    "rarityName": "Super Rare",
+    "attribute": "Blue",
+    "liveSkill": "Hit Support",
+    "thumbnail": "support-cards/thumbnails/64.webp"
+  },
+  {
+    "id": 65,
+    "title": "In the Amber Glow",
+    "characters": [
+      "Nagi Kotohira"
+    ],
+    "characterCount": 1,
+    "band": "millsage",
+    "bandColor": "#AA22EE",
+    "rarity": "SSR",
+    "rarityName": "Super Super Rare",
+    "attribute": "Red",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/65.webp"
+  },
+  {
+    "id": 66,
+    "title": "For You",
+    "characters": [
+      "Mahoro Hamasaki",
+      "Nagi Kotohira"
+    ],
+    "characterCount": 2,
+    "band": "millsage",
+    "bandColor": "#AA22EE",
+    "rarity": "SSR",
+    "rarityName": "Super Super Rare",
+    "attribute": "Red",
+    "liveSkill": "Hit Support",
+    "thumbnail": "support-cards/thumbnails/66.webp"
+  },
+  {
+    "id": 67,
+    "title": "Hands Toward the Light",
+    "characters": [
+      "Hotaru Shiomi"
+    ],
+    "characterCount": 1,
+    "band": "millsage",
+    "bandColor": "#AA22EE",
+    "rarity": "SR",
+    "rarityName": "Super Rare",
+    "attribute": "Red",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/67.webp"
+  },
+  {
+    "id": 68,
+    "title": "DIMENSIONAL OVERLAP",
+    "characters": [
+      "Arale Nakamachi",
+      "Nonoka Miyanaga",
+      "Ritsu Minetsuki",
+      "Miyako Fuji",
+      "Yuno Sengoku"
+    ],
+    "characterCount": 5,
+    "band": "Mugendai MewType",
+    "bandColor": "#FF7788",
+    "rarity": "EX",
+    "rarityName": "Special",
+    "attribute": "Yellow",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/68.webp"
+  },
+  {
+    "id": 70,
+    "title": "Abracadabra",
+    "characters": [
+      "Doloris / Uika Misumi",
+      "Mortis / Mutsumi Wakaba",
+      "Timoris / Umiri Yahata",
+      "Amoris / Nyamu Yūtenji",
+      "Oblivionis / Sakiko Togawa"
+    ],
+    "characterCount": 5,
+    "band": "Ave Mujica",
+    "bandColor": "#881144",
+    "rarity": "EX",
+    "rarityName": "Special",
+    "attribute": "Red",
+    "liveSkill": "Duration Up",
+    "thumbnail": "support-cards/thumbnails/70.webp"
+  }
+]

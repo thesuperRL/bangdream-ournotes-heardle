@@ -24,6 +24,9 @@ LOGO_DIR = os.path.join(DATA_DIR, "characters", "logos")
 CARDS_JSON = os.path.join(DATA_DIR, "cards", "cards.json")
 CARD_THUMB_DIR = os.path.join(DATA_DIR, "cards", "thumbnails")
 
+SUPPORT_CARDS_JSON = os.path.join(DATA_DIR, "support-cards", "support_cards.json")
+SUPPORT_CARD_THUMB_DIR = os.path.join(DATA_DIR, "support-cards", "thumbnails")
+
 
 def data_path(relative):
     """Disk location of a file a dataset points at, such as a song clip or a

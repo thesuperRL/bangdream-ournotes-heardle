@@ -1,17 +1,34 @@
 'use strict';
 
 // Datasets are shared between the games and always addressed from data/, never
-// from this folder, so the same cards.json can back a second game later.
+// from this folder, so the same support_cards.json can back a second game later.
 const DATA = '../data/';
 
 const SIZE = 3;
 const LIVES = 3;
 
-/* Every square is guaranteed at least this many different characters that fit.
-   Characters, not cards, because a grid holds each character once: two cards
-   of one character are a single answer as far as the grid is concerned, and a
-   square down to one character is forced rather than deduced. */
-const MIN_CHARACTERS_PER_CELL = 2;
+/* Every square is guaranteed at least this many different cards that fit.
+   Cards, not characters: the guessable thing here is the support card, and
+   nothing stops two squares holding two cards of the same member. A square
+   down to one card is forced rather than deduced, so two is the floor. */
+const MIN_CARDS_PER_CELL = 2;
+
+/* The fewest cards a clue needs before it is allowed on the grid at all.
+
+   A clue sits on an axis of three squares and every square wants two cards,
+   so anything under six is a clue that can only be answered by reusing the
+   same cards across the row. Most of them are the "Features X" clues: a
+   member with three cards cannot carry a row, and leaving them in the pool
+   is not free, because 25 of the 47 raw clues are that narrow and a draw
+   that touches one is thrown away. Pruning takes the pool from 47 to 24 and
+   the failure rate from 57 seeds in 2000 to none. */
+const MIN_CLUE_CARDS = SIZE * MIN_CARDS_PER_CELL;
+
+// A grid is six clues drawn at random; this is how many draws are made before
+// giving up. Measured over the current 69 support cards a usable grid turns
+// up after about 67 draws and the worst case seen in 2000 runs was 645, so
+// this is slack, not a tuning knob. See tests/memory_cardoku_generator.cjs.
+const MAX_ATTEMPTS = 20000;
 
 // ---- Randomness ----------------------------------------------------------
 
@@ -55,39 +72,41 @@ function shareDate() {
 
 // ---- Clues ---------------------------------------------------------------
 
-// Attribute gem colours as they appear in game: Ruby red, Azure blue, Jade
-// green, Amber yellow, Violet purple. Darkened so white chip text stays legible.
+// Support cards name their attribute by colour rather than by gem. Darkened
+// so white chip text stays legible.
 const ATTRIBUTE_COLOURS = {
-    Ruby: '#a6263c',
-    Azure: '#2a5a9e',
-    Jade: '#2d7a44',
-    Amber: '#8a6a1c',
-    Violet: '#6a3090',
+    Red: '#a6263c',
+    Blue: '#2a5a9e',
+    Green: '#2d7a44',
+    Yellow: '#8a6a1c',
+    Purple: '#6a3090',
+};
+
+/* The bands' own colours, darkened the same way. The dataset carries the
+   official values, but three of the five are pastels that leave white chip
+   text unreadable at chip size. */
+const BAND_CHIP_COLOURS = {
+    'MyGO!!!!!': '#225577',
+    'Ave Mujica': '#661133',
+    'Mugendai MewType': '#aa4455',
+    'millsage': '#771199',
+    'Ikka Dumb Rock!': '#997722',
 };
 
 const CATEGORY_COLOURS = {
-    position: '#3a5a7a',
     rarity: '#6a3a8a',
-    school: '#2a5a4a',
-    year: '#3a3a7a',
+    count: '#5a4a2a',
     skill: '#8a3a6a',
 };
 
-// How a clue reads a card. A card has several positions, so `position` tests
-// membership while the rest compare a single value.
+// How a clue reads a card. A card features several members, so `features`
+// tests membership while the rest compare a single value.
 const CATEGORIES = [
     {
         name: 'band',
         valuesOf: card => [card.band],
         label: value => value,
-        // Each band already has an official colour in the dataset.
-        colour: (value, card) => card.bandColor,
-    },
-    {
-        name: 'position',
-        valuesOf: card => card.positions,
-        label: value => value,
-        colour: () => CATEGORY_COLOURS.position,
+        colour: value => BAND_CHIP_COLOURS[value],
     },
     {
         name: 'rarity',
@@ -99,29 +118,36 @@ const CATEGORIES = [
     },
     {
         name: 'attribute',
-        valuesOf: card => [card.attributeLabel],
-        label: value => `${value} Type`,
+        valuesOf: card => [card.attribute],
+        label: value => `${value} Attribute`,
         colour: value => ATTRIBUTE_COLOURS[value],
     },
     {
-        name: 'school',
-        valuesOf: card => [card.school],
-        label: value => value,
-        colour: () => CATEGORY_COLOURS.school,
+        name: 'characterCount',
+        // A five-member card is the whole band, which is how the game bills
+        // it, so it reads as that rather than as a number.
+        valuesOf: card => [card.characterCount === 5 ? 'Full Band' : String(card.characterCount)],
+        label: value => {
+            if (value === 'Full Band') return 'Full Band';
+            if (value === '1') return '1 Character';
+            return `${value} Characters`;
+        },
+        colour: () => CATEGORY_COLOURS.count,
     },
     {
-        name: 'year',
-        valuesOf: card => [card.yearLabel],
-        label: value => value,
-        colour: () => CATEGORY_COLOURS.year,
-    },
-    {
-        name: 'skill',
-        // The family the game prints in brackets at the head of the card's
-        // live skill text: Simple, Hit or Life.
+        name: 'liveSkill',
+        // The heading bdon prints over the card's Live Support Skill, short
+        // enough for a chip: Duration Up, Hit Support or Life Recovery.
         valuesOf: card => [card.liveSkill],
         label: value => `${value} Skill`,
         colour: () => CATEGORY_COLOURS.skill,
+    },
+    {
+        name: 'features',
+        // Multi-value: a card with Tomori and Anon on it is in both sets.
+        valuesOf: card => card.characters,
+        label: value => `Features ${value}`,
+        colour: (value, card) => BAND_CHIP_COLOURS[card.band],
     },
 ];
 
@@ -141,6 +167,7 @@ function buildClues(cards) {
             }
         }
         for (const [value, group] of byValue) {
+            if (group.ids.size < MIN_CLUE_CARDS) continue;
             clues.push({
                 category: category.name,
                 value: value,
@@ -158,44 +185,29 @@ function cardsFor(rowClue, columnClue) {
     return CARDS.filter(card => rowClue.ids.has(card.id) && columnClue.ids.has(card.id));
 }
 
-/* The distinct characters a square can be filled by.
+/* Can the nine squares be filled all at once, given that a card is used only
+   once in a grid?
 
-   The intersection has to be taken over cards and only then collapsed to
-   characters. Going straight to characters would accept a character who meets
-   the row clue on one card and the column clue on a different one, which is
-   not a card that can be put in the square. */
-function charactersFor(rowClue, columnClue) {
-    const [small, large] = rowClue.ids.size <= columnClue.ids.size
-        ? [rowClue.ids, columnClue.ids]
-        : [columnClue.ids, rowClue.ids];
-    const found = new Set();
-    for (const id of small) {
-        if (large.has(id)) found.add(CHARACTER_OF.get(id));
-    }
-    return found;
-}
+   A character may stand in as many squares as the player finds cards for, so
+   this is weaker than the member cardoku's version, but it is not gone: a
+   card is still one card and cannot be in two squares. Two squares whose only
+   answers are the same two full-band cards are fine; a third square with the
+   same two is a grid that cannot be finished, and the player only finds out
+   on the last square. One drawn grid in a hundred looks fine square by square
+   and fails here.
 
-/* Can the nine squares be filled all at once, given that a character is used
-   only once in a grid?
-
-   Checking each square on its own is not enough. Three squares can each offer
-   two characters and still have only two characters between them, and that
-   grid can never be finished: the player would reach a square with nobody left
-   to put in it. About one grid in eighty looks fine square by square and fails
-   here.
-
-   This is a bipartite matching between squares and characters, so each square
-   in turn claims a character, pushing an earlier square onto another of its
-   options when it has to. A square that cannot be served even after that
-   reshuffling is one the grid has no room for. */
+   This is a bipartite matching between squares and cards, so each square in
+   turn claims a card, pushing an earlier square onto another of its options
+   when it has to. A square that cannot be served even after that reshuffling
+   is one the grid has no room for. */
 function canFillDistinctly(options) {
     const holder = new Map();
     function claim(square, tried) {
-        for (const character of options[square]) {
-            if (tried.has(character)) continue;
-            tried.add(character);
-            if (!holder.has(character) || claim(holder.get(character), tried)) {
-                holder.set(character, square);
+        for (const card of options[square]) {
+            if (tried.has(card.id)) continue;
+            tried.add(card.id);
+            if (!holder.has(card.id) || claim(holder.get(card.id), tried)) {
+                holder.set(card.id, square);
                 return true;
             }
         }
@@ -204,135 +216,59 @@ function canFillDistinctly(options) {
     return options.every((_, square) => claim(square, new Set()));
 }
 
-/* The clue pool and the board list are both derived purely from CARDS, and
-   both are wanted on every grid, so they are built once and kept. Cleared by
-   nothing: CARDS is loaded before the first grid and never changes after. */
-let CLUE_POOL = null;
-let BOARD_LIST = null;
-
-function cluePool() {
-    if (CLUE_POOL === null) CLUE_POOL = buildClues(CARDS);
-    return CLUE_POOL;
-}
-
-function boardList() {
-    if (BOARD_LIST === null) BOARD_LIST = enumerateBoards(cluePool());
-    return BOARD_LIST;
-}
-
-/* Every board the card data allows, as triples of indices into `pool`.
-
-   Boards are enumerated rather than drawn. Drawing six clues and retrying
-   until they fit is a many-to-one map from seed to board, so dailies repeat
-   long before the boards run out: over a simulated century the old sampler
-   served its first repeat on day 189 and never reached 22837 of the boards at
-   all. Walking an enumerated list with a coprime step is a permutation, so
-   every board appears exactly once before any appears twice, and each is
-   equally likely instead of the sampler's bias towards broad clues.
-
-   Rows are kept lexicographically below columns, which drops the transpose of
-   each board. A flipped grid is the same puzzle and a player would recognise
-   it as a repeat, so it must not consume a separate day.
-
-   This is about 180ms in a browser over the current 66 cards and runs once
-   per page load. It is deliberately not a committed index file: that would
-   have to be regenerated whenever the card data changes, and a stale one
-   would point at clues that no longer exist. */
-function enumerateBoards(pool) {
-    const triples = [];
-    for (let a = 0; a < pool.length; a++) {
-        for (let b = a + 1; b < pool.length; b++) {
-            for (let c = b + 1; c < pool.length; c++) {
-                const categories = new Set([pool[a].category, pool[b].category, pool[c].category]);
-                if (categories.size === 3) triples.push([a, b, c]);
-            }
-        }
-    }
-
-    /* Squares are tested through this cache rather than through
-       charactersFor: a pair of clues is reached by many boards, and the
-       intersection is the expensive part. */
-    const square = new Map();
-    const charactersAt = (row, column) => {
-        const key = row * pool.length + column;
-        let found = square.get(key);
-        if (found === undefined) {
-            const characters = charactersFor(pool[row], pool[column]);
-            found = characters.size >= MIN_CHARACTERS_PER_CELL ? characters : null;
-            square.set(key, found);
-        }
-        return found;
-    };
-
-    const boards = [];
-    for (const rows of triples) {
-        const rowCategories = new Set(rows.map(index => pool[index].category));
-        for (const columns of triples) {
-            if (columns.some(index => rowCategories.has(pool[index].category))) continue;
-            // Transposes are the same puzzle; keep one of each pair.
-            if (rows[0] > columns[0]) continue;
-
-            const options = [];
-            for (const row of rows) {
-                for (const column of columns) {
-                    const characters = charactersAt(row, column);
-                    if (characters === null) break;
-                    options.push(characters);
-                }
-                if (options.length % SIZE !== 0) break;
-            }
-            if (options.length < 9) continue;
-            if (canFillDistinctly(options)) boards.push({ rows, columns });
-        }
-    }
-    return boards;
-}
-
-/* A step that walks the whole list before revisiting anything.
-
-   Any step coprime to the length generates the full cycle. The golden ratio
-   is the usual choice for the one that scatters best, which keeps grids a day
-   apart from sharing most of their clues. */
-function cycleStep(length) {
-    const gcd = (a, b) => (b === 0 ? a : gcd(b, a % b));
-    let step = Math.round(length / 1.618033988749895);
-    while (gcd(step, length) !== 1) step++;
-    return step;
-}
-
-/* The board for a position in the cycle, oriented by `seed`.
-
-   The enumeration fixes an order for the three clues on each axis and drops
-   transposes, so a board would otherwise always be laid out the same way. The
-   seed shuffles both axes and decides which one is the rows, which costs
-   nothing and stops the layout from leaking the enumeration order. */
-function boardAt(index, seed) {
-    const pool = cluePool();
-    const boards = boardList();
-    const board = boards[((index % boards.length) + boards.length) % boards.length];
+/* Draw three row clues and three column clues that leave every square
+   fillable. Returns null only if the card data has changed so much that no
+   such grid exists, which the caller reports rather than hiding. */
+function generatePuzzle(seed) {
     const random = mulberry32(seed);
+    const pool = buildClues(CARDS);
 
-    const shuffled = indices => {
-        const clues = indices.map(i => pool[i]);
-        for (let i = clues.length - 1; i > 0; i--) {
-            const j = Math.floor(random() * (i + 1));
-            [clues[i], clues[j]] = [clues[j], clues[i]];
+    for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+        // Partial Fisher-Yates: only the six clues actually needed are drawn.
+        const drawn = [...pool];
+        for (let i = 0; i < 6; i++) {
+            const j = i + Math.floor(random() * (drawn.length - i));
+            [drawn[i], drawn[j]] = [drawn[j], drawn[i]];
         }
-        return clues;
-    };
-    const first = shuffled(board.rows);
-    const second = shuffled(board.columns);
-    return random() < 0.5
-        ? { rows: first, columns: second }
-        : { rows: second, columns: first };
+        const rows = drawn.slice(0, 3);
+        const columns = drawn.slice(3, 6);
+
+        /* A category may repeat down one axis but never across both. Band on a
+           row and band on a column can only ever meet in a card that is in two
+           bands at once, so such a square has no answer at all. */
+        const rowCategories = new Set(rows.map(clue => clue.category));
+        if (columns.some(clue => rowCategories.has(clue.category))) continue;
+
+        /* An axis may not be one category all the way down either. Such a
+           grid is solvable and legal, but all three clues read the same and
+           the axis stops feeling like three separate questions.
+
+           It stops there rather than demanding six different categories the
+           way the member cardoku does, because there are exactly six
+           categories here: all-six-distinct would put a "Features X" clue and
+           one of the only two character-count clues on every single board,
+           and the worst draw measured over 2000 seeds climbs from 645 to
+           9899. */
+        const columnCategories = new Set(columns.map(clue => clue.category));
+        if (rowCategories.size < 2 || columnCategories.size < 2) continue;
+
+        const options = [];
+        for (const row of rows) {
+            for (const column of columns) {
+                const fits = cardsFor(row, column);
+                if (fits.length < MIN_CARDS_PER_CELL) break;
+                options.push(fits);
+            }
+        }
+        if (options.length < 9) continue;
+        if (canFillDistinctly(options)) return { rows, columns };
+    }
+    return null;
 }
 
 // ---- State ---------------------------------------------------------------
 
 let CARDS = [];
-// Card id -> character slug, so the generator can collapse a square's cards to
-// the characters behind them without searching CARDS each time.
-let CHARACTER_OF = new Map();
 let puzzle = null;
 /* placed[row][column] is the card that settled the square, or null while it is
    still open. missed[row][column] lists the cards already tried there and
@@ -344,7 +280,7 @@ let over = false;
 let selected = null;
 
 function dailyKey() {
-    return `cardoku-daily-${todayStamp()}`;
+    return `memory-cardoku-daily-${todayStamp()}`;
 }
 
 function emptyState() {
@@ -475,7 +411,7 @@ function renderGrid() {
                 const card = cardById(id);
                 const image = document.createElement('img');
                 image.src = DATA + card.thumbnail;
-                image.alt = `${card.title} — ${card.character}`;
+                image.alt = `${card.title} \u2014 ${card.characters.join(' & ')}`;
                 cell.appendChild(image);
                 cell.classList.add(solved ? 'correct' : 'wrong');
             }
@@ -518,30 +454,21 @@ function render() {
 
 // ---- Playing -------------------------------------------------------------
 
-function startGame(puzzleForToday) {
-    puzzle = puzzleForToday;
+function startGame(seed) {
+    puzzle = generatePuzzle(seed);
     state = loadState();
     over = isOver();
     render();
 }
 
-/* Whole days since the epoch, in UTC so the cycle advances by exactly one
-   wherever the player is. The date string is what the save is keyed to and
-   what seeds the layout, so the two stay in step. */
-function dayNumber() {
-    return Math.floor(Date.parse(`${todayStamp()}T00:00:00Z`) / 86400000);
-}
-
 function startDaily() {
     mode = 'daily';
-    const boards = boardList();
-    startGame(boardAt(dayNumber() * cycleStep(boards.length), hash32(todayStamp())));
+    startGame(hash32(todayStamp()));
 }
 
 function startUnlimited() {
     mode = 'unlimited';
-    const index = Math.floor(Math.random() * boardList().length);
-    startGame(boardAt(index, (Math.random() * 0x100000000) >>> 0));
+    startGame((Math.random() * 0x100000000) >>> 0);
 }
 
 function onCellClick(event) {
@@ -557,18 +484,6 @@ function onCellClick(event) {
 
     selected = { row: row, column: column };
     openSearch();
-}
-
-/* The characters already standing in the grid. A grid holds each character
-   once, so once one of their cards is placed the rest of that character's
-   cards leave the pool everywhere; which of their cards the player used is up
-   to them. A character merely rejected somewhere is still free. */
-function usedCharacters() {
-    const used = new Set();
-    for (const id of state.placed.flat()) {
-        if (id !== null) used.add(CHARACTER_OF.get(id));
-    }
-    return used;
 }
 
 function commitGuess(id) {
@@ -625,16 +540,15 @@ function openSearch() {
    cards that already satisfy both clues would answer the puzzle for the player
    and leave the three lives unspendable.
 
-   Two sets are held back. Every card of a character already in the grid, since
-   a character fills one square and no more. And the cards this square has
-   already rejected, which is a card-level list rather than a character one: a
-   character's cards differ in rarity and attribute, so the wrong card of a
-   character can sit beside the right one. */
+   Two sets are held back. The cards already standing in the grid, since a card
+   is one card and cannot be in two squares; its members are not spent with it,
+   so another card of the same character is still offered. And the cards this
+   square has already rejected, which is per square rather than grid-wide: a
+   card wrong here may be right elsewhere. */
 function candidates() {
-    const used = usedCharacters();
+    const placed = new Set(state.placed.flat().filter(id => id !== null));
     const rejected = new Set(state.missed[selected.row][selected.column]);
-    return CARDS.filter(card =>
-        !used.has(card.characterId) && !rejected.has(card.id));
+    return CARDS.filter(card => !placed.has(card.id) && !rejected.has(card.id));
 }
 
 function renderSuggestions(query) {
@@ -645,8 +559,7 @@ function renderSuggestions(query) {
     const key = searchKey(query);
     const matches = candidates().filter(card => !key
         || searchKey(card.title).includes(key)
-        || searchKey(card.character).includes(key)
-        || (card.stageName && searchKey(card.stageName).includes(key)));
+        || card.characters.some(character => searchKey(character).includes(key)));
 
     if (matches.length === 0) {
         const note = document.createElement('p');
@@ -671,12 +584,10 @@ function renderSuggestions(query) {
         name.textContent = card.title;
         const sub = document.createElement('div');
         sub.className = 'suggestion-sub';
-        // Character only. The rarity and attribute of a card are what the
+        // Characters only. The rarity and attribute of a card are what the
         // player is being asked to know, so printing them here would answer
         // the clue instead of posing it.
-        sub.textContent = card.stageName
-            ? `${card.character} (${card.stageName})`
-            : card.character;
+        sub.textContent = card.characters.join(' & ');
         text.append(name, sub);
 
         item.append(image, text);
@@ -719,7 +630,7 @@ function showAnswers(row, column) {
         name.textContent = card.title;
         const sub = document.createElement('div');
         sub.className = 'answer-sub';
-        sub.textContent = `${card.rarityName} \u00b7 ${card.character} \u00b7 ${card.band}`;
+        sub.textContent = `${card.rarityName} \u00b7 ${card.characters.join(' & ')} \u00b7 ${card.band}`;
         text.append(name, sub);
 
         item.append(image, text);
@@ -749,10 +660,10 @@ function resultGrid() {
    the daily is the grid everybody else played that day. */
 function shareText() {
     const header = mode === 'daily'
-        ? `BanG Dream! Our Notes Cardoku, ${shareDate()} (UTC)`
-        : 'BanG Dream! Our Notes Cardoku';
+        ? `BanG Dream! Our Notes Memory Cardoku, ${shareDate()} (UTC)`
+        : 'BanG Dream! Our Notes Memory Cardoku';
     const score = `${solvedCount()}/9 with ${state.lives}/${LIVES} lives left`;
-    const link = 'https://thesuperrl.github.io/bangdream-ournotes-heardle/cardoku/';
+    const link = 'https://thesuperrl.github.io/bangdream-ournotes-heardle/memory-cardoku/';
     return [header, '', resultGrid(), '', score, link].join('\n');
 }
 
@@ -815,9 +726,8 @@ function hideEnd() {
 // ---- Wiring --------------------------------------------------------------
 
 document.addEventListener('DOMContentLoaded', async function () {
-    const response = await fetch(DATA + 'cards/cards.json');
+    const response = await fetch(DATA + 'support-cards/support_cards.json');
     CARDS = await response.json();
-    CHARACTER_OF = new Map(CARDS.map(card => [card.id, card.characterId]));
 
     const searchDialog = document.getElementById('search-dialog');
     const input = document.getElementById('search-input');

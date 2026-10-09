@@ -666,15 +666,17 @@ function formatDateUTC(date) {
 
 // Function that generates the content to be copied
 function generateContent(isGuessed) {
-    const date = new Date();
-    const formattedDate = formatDateUTC(date)
+    // Only the daily round is worth dating: it is the one everyone else is
+    // playing that same day, so the date is what makes the score comparable.
+    // An endless round is a private replay and the date says nothing.
+    const when = mode === "Daily" ? `, ${formatDateUTC(new Date())} (UTC)` : '';
 
     let answer = ""
     if (mode == "Endless") {
-        answer = `\n\n Song: ${Answer}`;
+        answer = `\n\nSong: ${Answer}`;
     }
 
-    return `BanG Dream! Our Notes ${mode} Heardle #${SongIndex}, ${formattedDate} (UTC) ${answer}
+    return `BanG Dream! Our Notes ${mode} Heardle${when}${answer}
 
 ${generateGuessNumbers(isGuessed)}`;
 }

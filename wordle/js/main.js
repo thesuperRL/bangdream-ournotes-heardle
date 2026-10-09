@@ -756,14 +756,17 @@ function formatDateUTC(date) {
 
 // Function that generates the content to be copied
 function generateContent(isGuessed) {
-    const formattedDate = formatDateUTC(new Date());
+    // Only the daily round is worth dating: it is the one everyone else is
+    // playing that same day, so the date is what makes the score comparable.
+    // An endless round is a private replay and the date says nothing.
+    const when = mode === "Daily" ? `, ${formatDateUTC(new Date())} (UTC)` : '';
 
     // The daily answer is the same for everyone, so it is never spoiled here.
     // An endless round is private, so naming the character is the only way the
     // score means anything.
-    const answer = mode === "Endless" ? `\n\n Character: ${Answer.names.en}` : '';
+    const answer = mode === "Endless" ? `\n\nCharacter: ${Answer.names.en}` : '';
 
-    return `BanG Dream! Our Notes ${mode} Wordle #${CharIndex}, ${formattedDate} (UTC) ${answer}
+    return `BanG Dream! Our Notes ${mode} Wordle${when}${answer}
 
 ${generateGuessNumbers(isGuessed)}`;
 }
