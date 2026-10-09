@@ -59,7 +59,8 @@
                 const row = document.createElement('tr');
 
                 const titleCell = document.createElement('td');
-                titleCell.textContent = `${card.title} / ${card.titleJa} (${card.rarityLabel})`;
+                titleCell.textContent =
+                    `${card.title} / ${card.titleJa} (${card.rarityLabel} — ${card.rarityName})`;
 
                 const nameCell = document.createElement('td');
                 nameCell.textContent = card.stageName

@@ -12,6 +12,11 @@ Two things the cardoku needs are not in that API in a usable shape:
   * Instrument. haneoka's bandPart is a short composite string ("Gt.&Vo.",
     "DJ&Mp."). The wordle's positions list is already split and spelled out,
     so it is reused too, which lets a card match both Guitarist and Vocalist.
+  * Live skill family. A card points at a skill id, and the skill's English
+    description opens with the family in brackets ("[Life] For 5.0 seconds,
+    ..."). That bracket is what the game shows the player, so it is read
+    straight out of the description rather than mapped from the numeric
+    `categories` field: a skill added later is labelled without a code change.
 
 The join key is the English name with its words sorted, because the two
 sources disagree on name order: haneoka says "Tomori Takamatsu", the wordle
@@ -51,6 +56,10 @@ BIRTHDAY_RARITY = 20
 # Verified against the card pages on haneoka.org, which label these as the
 # alt text of the rarity and attribute icons (see member-cards/1).
 RARITY_LABEL = {2: "R", 3: "SR", 4: "SSR"}
+# The abbreviations spelled out. haneoka and the game only ever print the
+# letters, so these are the standard gacha expansions rather than a quoted
+# in-game string; they exist so a clue can read as words instead of initials.
+RARITY_NAME = {2: "Rare", 3: "Super Rare", 4: "Super Super Rare"}
 ATTRIBUTE_LABEL = {1: "Ruby", 2: "Azure", 3: "Jade", 4: "Amber", 5: "Violet"}
 
 # Year codes as stored by the wordle -> the label the chips show.
@@ -103,10 +112,25 @@ def save_thumbnail(card_id, destination):
     return os.path.getsize(destination)
 
 
+def skill_families(skills):
+    """skill id -> the family named in the leading bracket of its English text.
+
+    The brackets are not cased consistently ("[Life]", "[HIT]", "[Simple]"),
+    so they are title-cased to one chip label per family."""
+    families = {}
+    for skill_id, skill in skills.items():
+        match = re.match(r"\[(.+?)\]", skill["description"][EN])
+        if match is None:
+            raise SystemExit(f"Skill {skill_id} has no bracketed family")
+        families[int(skill_id)] = match.group(1).title()
+    return families
+
+
 def build_cards():
     cards = fetch("/api/v1/cards")
     characters = fetch("/api/v1/characters")
     bands = fetch("/api/v1/bands")
+    skills = skill_families(fetch("/api/v1/skills"))
 
     with open(CHARACTERS_JSON, encoding="utf-8") as handle:
         local_characters = json.load(handle)
@@ -142,8 +166,11 @@ def build_cards():
             "positions": local["positions"],
             "rarity": card["rarity"],
             "rarityLabel": RARITY_LABEL.get(card["rarity"], str(card["rarity"])),
+            "rarityName": RARITY_NAME.get(card["rarity"], str(card["rarity"])),
             "attribute": card["cardType"],
             "attributeLabel": ATTRIBUTE_LABEL.get(card["cardType"], str(card["cardType"])),
+            "liveSkillId": card["liveSkillId"],
+            "liveSkill": skills[card["liveSkillId"]],
             "school": local["school"],
             "year": local["year"],
             "yearLabel": YEAR_LABEL.get(local["year"], local["year"]),
@@ -163,16 +190,18 @@ def report(cards):
     """Print the distributions the puzzle generator depends on, so a game
     update that collapses one of them is visible rather than silent."""
     print(f"\n{len(cards)} cards")
-    for field in ("band", "rarityLabel", "attributeLabel", "school", "yearLabel"):
+    for field in ("band", "rarityLabel", "attributeLabel", "school", "yearLabel", "liveSkill"):
         counts = Counter(card[field] for card in cards)
         print(f"  {field}: {dict(counts)}")
     print(f"  positions: {dict(Counter(p for c in cards for p in c['positions']))}")
 
-    # Attribute is only worth using as a puzzle axis if it cuts across bands.
-    print("\n  attribute per band:")
-    for band in sorted({card["band"] for card in cards}):
-        spread = Counter(c["attributeLabel"] for c in cards if c["band"] == band)
-        print(f"    {band}: {dict(spread)}")
+    # Attribute and live skill are only worth using as puzzle axes if they cut
+    # across bands; one that tracks the band is a clue the band already gave.
+    for field in ("attributeLabel", "liveSkill"):
+        print(f"\n  {field} per band:")
+        for band in sorted({card["band"] for card in cards}):
+            spread = Counter(c[field] for c in cards if c["band"] == band)
+            print(f"    {band}: {dict(spread)}")
 
 
 def main():

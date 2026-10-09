@@ -14,9 +14,9 @@ const LIVES = 3;
 const MIN_CHARACTERS_PER_CELL = 2;
 
 // A grid is six clues drawn at random; this is how many draws are made before
-// giving up. Measured over the current 63 cards a usable grid turns up after
-// about 280 draws and the worst case seen in 1500 runs was 3261, so this is
-// slack, not a tuning knob.
+// giving up. Measured over the current 66 cards a usable grid turns up after
+// about 180 draws and the worst case seen in 3000 runs was 1303, so this is
+// slack, not a tuning knob. See tests/cardoku_generator.cjs.
 const MAX_ATTEMPTS = 20000;
 
 // ---- Randomness ----------------------------------------------------------
@@ -65,6 +65,7 @@ const CATEGORY_COLOURS = {
     rarity: '#6a3a8a',
     school: '#2a5a4a',
     year: '#3a3a7a',
+    skill: '#8a3a6a',
 };
 
 // How a clue reads a card. A card has several positions, so `position` tests
@@ -85,7 +86,9 @@ const CATEGORIES = [
     },
     {
         name: 'rarity',
-        valuesOf: card => [card.rarityLabel],
+        // Spelled out rather than R/SR/SSR: a clue has to be readable by
+        // someone who has not memorised the game's initials.
+        valuesOf: card => [card.rarityName],
         label: value => value,
         colour: () => CATEGORY_COLOURS.rarity,
     },
@@ -106,6 +109,14 @@ const CATEGORIES = [
         valuesOf: card => [card.yearLabel],
         label: value => value,
         colour: () => CATEGORY_COLOURS.year,
+    },
+    {
+        name: 'skill',
+        // The family the game prints in brackets at the head of the card's
+        // live skill text: Simple, Hit or Life.
+        valuesOf: card => [card.liveSkill],
+        label: value => `${value} Skill`,
+        colour: () => CATEGORY_COLOURS.skill,
     },
 ];
 
@@ -578,7 +589,7 @@ function showAnswers(row, column) {
         name.textContent = card.title;
         const sub = document.createElement('div');
         sub.className = 'answer-sub';
-        sub.textContent = `${card.rarityLabel} \u00b7 ${card.character} \u00b7 ${card.band}`;
+        sub.textContent = `${card.rarityName} \u00b7 ${card.character} \u00b7 ${card.band}`;
         text.append(name, sub);
 
         item.append(image, text);

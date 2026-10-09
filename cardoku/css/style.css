@@ -119,6 +119,11 @@ hr {
     font-size: clamp(9px, 1.9vw, 13px);
     font-weight: 700;
     line-height: 1.15;
+    /* Row chips are only 4.5rem wide and several labels have single words
+       wider than that ("DJ/Manipulator", "Hanasakigawa"), so a word is allowed
+       to break. overflow-wrap is not enough here: the label is an anonymous
+       flex item, which will not shrink below its longest word. */
+    word-break: break-word;
     color: #fff;
     /* Band colours are mid-tone, so white text needs the extra contrast. */
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.75);
