@@ -18,7 +18,7 @@
     "attributeLabel": "Violet",
     "school": "Haneoka Girls' High School",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/1.webp"
   },
   {
@@ -40,7 +40,7 @@
     "attributeLabel": "Ruby",
     "school": "Haneoka Girls' High School",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/2.webp"
   },
   {
@@ -62,7 +62,7 @@
     "attributeLabel": "Azure",
     "school": "Hanasakigawa Girls' Junior High School",
     "year": "JHS3",
-    "yearLabel": "Jr High 3",
+    "yearLabel": "JHS Year 3",
     "thumbnail": "cards/thumbnails/3.webp"
   },
   {
@@ -84,7 +84,7 @@
     "attributeLabel": "Amber",
     "school": "Tsukinomori Girls' Academy",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/4.webp"
   },
   {
@@ -106,7 +106,7 @@
     "attributeLabel": "Jade",
     "school": "Hanasakigawa Girls' High School",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/5.webp"
   },
   {
@@ -129,7 +129,7 @@
     "attributeLabel": "Violet",
     "school": "Hanasakigawa Girls' High School",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/6.webp"
   },
   {
@@ -151,7 +151,7 @@
     "attributeLabel": "Jade",
     "school": "Tsukinomori Girls' Academy",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/7.webp"
   },
   {
@@ -173,7 +173,7 @@
     "attributeLabel": "Azure",
     "school": "Hanasakigawa Girls' High School",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/8.webp"
   },
   {
@@ -195,7 +195,7 @@
     "attributeLabel": "Amber",
     "school": "Geijutsu Academy",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/9.webp"
   },
   {
@@ -217,7 +217,7 @@
     "attributeLabel": "Ruby",
     "school": "Haneoka Girls' High School",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/10.webp"
   },
   {
@@ -239,7 +239,7 @@
     "attributeLabel": "Azure",
     "school": "Kanda Shiroyama Academy",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/11.webp"
   },
   {
@@ -261,7 +261,7 @@
     "attributeLabel": "Ruby",
     "school": "Kanda Shiroyama Academy",
     "year": "HS2",
-    "yearLabel": "High 2",
+    "yearLabel": "HS Year 2",
     "thumbnail": "cards/thumbnails/12.webp"
   },
   {
@@ -283,7 +283,7 @@
     "attributeLabel": "Amber",
     "school": "Kanda Shiroyama Academy",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/13.webp"
   },
   {
@@ -305,7 +305,7 @@
     "attributeLabel": "Violet",
     "school": "Kanda Shiroyama Academy",
     "year": "HS2",
-    "yearLabel": "High 2",
+    "yearLabel": "HS Year 2",
     "thumbnail": "cards/thumbnails/14.webp"
   },
   {
@@ -327,7 +327,7 @@
     "attributeLabel": "Jade",
     "school": "Kanda Shiroyama Academy",
     "year": "HS2",
-    "yearLabel": "High 2",
+    "yearLabel": "HS Year 2",
     "thumbnail": "cards/thumbnails/15.webp"
   },
   {
@@ -349,8 +349,8 @@
     "attribute": 2,
     "attributeLabel": "Azure",
     "school": "Geijutsu Academy",
-    "year": "HS3",
-    "yearLabel": "High 3",
+    "year": "JHS3",
+    "yearLabel": "JHS Year 3",
     "thumbnail": "cards/thumbnails/16.webp"
   },
   {
@@ -372,7 +372,7 @@
     "attributeLabel": "Amber",
     "school": "Minase Girls' Academy",
     "year": "HS2",
-    "yearLabel": "High 2",
+    "yearLabel": "HS Year 2",
     "thumbnail": "cards/thumbnails/17.webp"
   },
   {
@@ -394,7 +394,7 @@
     "attributeLabel": "Violet",
     "school": "Minase Girls' Academy",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/18.webp"
   },
   {
@@ -416,7 +416,7 @@
     "attributeLabel": "Ruby",
     "school": "Minase Girls' Academy",
     "year": "HS2",
-    "yearLabel": "High 2",
+    "yearLabel": "HS Year 2",
     "thumbnail": "cards/thumbnails/19.webp"
   },
   {
@@ -438,7 +438,7 @@
     "attributeLabel": "Jade",
     "school": "Minase Girls' Academy",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/20.webp"
   },
   {
@@ -461,7 +461,7 @@
     "attributeLabel": "Violet",
     "school": "Haneoka Girls' High School",
     "year": "HS2",
-    "yearLabel": "High 2",
+    "yearLabel": "HS Year 2",
     "thumbnail": "cards/thumbnails/21.webp"
   },
   {
@@ -484,7 +484,7 @@
     "attributeLabel": "Azure",
     "school": "Hanasakigawa Girls' High School",
     "year": "HS2",
-    "yearLabel": "High 2",
+    "yearLabel": "HS Year 2",
     "thumbnail": "cards/thumbnails/22.webp"
   },
   {
@@ -506,7 +506,7 @@
     "attributeLabel": "Jade",
     "school": "Shinou Women's University",
     "year": "Univ1",
-    "yearLabel": "Uni 1",
+    "yearLabel": "Uni Year 1",
     "thumbnail": "cards/thumbnails/23.webp"
   },
   {
@@ -528,7 +528,7 @@
     "attributeLabel": "Amber",
     "school": "Haneoka Girls' High School",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/24.webp"
   },
   {
@@ -550,7 +550,7 @@
     "attributeLabel": "Ruby",
     "school": "Tsukinomori Girls' Academy Middle School",
     "year": "JHS2",
-    "yearLabel": "Jr High 2",
+    "yearLabel": "JHS Year 2",
     "thumbnail": "cards/thumbnails/25.webp"
   },
   {
@@ -572,7 +572,7 @@
     "attributeLabel": "Azure",
     "school": "Haneoka Girls' High School",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/26.webp"
   },
   {
@@ -594,7 +594,7 @@
     "attributeLabel": "Jade",
     "school": "Haneoka Girls' High School",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/27.webp"
   },
   {
@@ -616,7 +616,7 @@
     "attributeLabel": "Ruby",
     "school": "Hanasakigawa Girls' Junior High School",
     "year": "JHS3",
-    "yearLabel": "Jr High 3",
+    "yearLabel": "JHS Year 3",
     "thumbnail": "cards/thumbnails/28.webp"
   },
   {
@@ -638,7 +638,7 @@
     "attributeLabel": "Violet",
     "school": "Tsukinomori Girls' Academy",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/29.webp"
   },
   {
@@ -660,7 +660,7 @@
     "attributeLabel": "Amber",
     "school": "Hanasakigawa Girls' High School",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/30.webp"
   },
   {
@@ -683,7 +683,7 @@
     "attributeLabel": "Jade",
     "school": "Hanasakigawa Girls' High School",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/31.webp"
   },
   {
@@ -705,7 +705,7 @@
     "attributeLabel": "Azure",
     "school": "Tsukinomori Girls' Academy",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/32.webp"
   },
   {
@@ -727,7 +727,7 @@
     "attributeLabel": "Amber",
     "school": "Hanasakigawa Girls' High School",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/33.webp"
   },
   {
@@ -749,7 +749,7 @@
     "attributeLabel": "Ruby",
     "school": "Geijutsu Academy",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/34.webp"
   },
   {
@@ -771,7 +771,7 @@
     "attributeLabel": "Violet",
     "school": "Haneoka Girls' High School",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/35.webp"
   },
   {
@@ -793,7 +793,7 @@
     "attributeLabel": "Jade",
     "school": "Kanda Shiroyama Academy",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/36.webp"
   },
   {
@@ -815,7 +815,7 @@
     "attributeLabel": "Violet",
     "school": "Kanda Shiroyama Academy",
     "year": "HS2",
-    "yearLabel": "High 2",
+    "yearLabel": "HS Year 2",
     "thumbnail": "cards/thumbnails/37.webp"
   },
   {
@@ -837,7 +837,7 @@
     "attributeLabel": "Ruby",
     "school": "Kanda Shiroyama Academy",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/38.webp"
   },
   {
@@ -859,7 +859,7 @@
     "attributeLabel": "Azure",
     "school": "Kanda Shiroyama Academy",
     "year": "HS2",
-    "yearLabel": "High 2",
+    "yearLabel": "HS Year 2",
     "thumbnail": "cards/thumbnails/39.webp"
   },
   {
@@ -881,7 +881,7 @@
     "attributeLabel": "Amber",
     "school": "Kanda Shiroyama Academy",
     "year": "HS2",
-    "yearLabel": "High 2",
+    "yearLabel": "HS Year 2",
     "thumbnail": "cards/thumbnails/40.webp"
   },
   {
@@ -903,8 +903,8 @@
     "attribute": 1,
     "attributeLabel": "Ruby",
     "school": "Geijutsu Academy",
-    "year": "HS3",
-    "yearLabel": "High 3",
+    "year": "JHS3",
+    "yearLabel": "JHS Year 3",
     "thumbnail": "cards/thumbnails/41.webp"
   },
   {
@@ -926,7 +926,7 @@
     "attributeLabel": "Azure",
     "school": "Minase Girls' Academy",
     "year": "HS2",
-    "yearLabel": "High 2",
+    "yearLabel": "HS Year 2",
     "thumbnail": "cards/thumbnails/42.webp"
   },
   {
@@ -948,7 +948,7 @@
     "attributeLabel": "Jade",
     "school": "Minase Girls' Academy",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/43.webp"
   },
   {
@@ -970,7 +970,7 @@
     "attributeLabel": "Violet",
     "school": "Minase Girls' Academy",
     "year": "HS2",
-    "yearLabel": "High 2",
+    "yearLabel": "HS Year 2",
     "thumbnail": "cards/thumbnails/44.webp"
   },
   {
@@ -992,7 +992,7 @@
     "attributeLabel": "Amber",
     "school": "Minase Girls' Academy",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/45.webp"
   },
   {
@@ -1015,7 +1015,7 @@
     "attributeLabel": "Jade",
     "school": "Haneoka Girls' High School",
     "year": "HS2",
-    "yearLabel": "High 2",
+    "yearLabel": "HS Year 2",
     "thumbnail": "cards/thumbnails/46.webp"
   },
   {
@@ -1038,7 +1038,7 @@
     "attributeLabel": "Ruby",
     "school": "Hanasakigawa Girls' High School",
     "year": "HS2",
-    "yearLabel": "High 2",
+    "yearLabel": "HS Year 2",
     "thumbnail": "cards/thumbnails/47.webp"
   },
   {
@@ -1060,7 +1060,7 @@
     "attributeLabel": "Amber",
     "school": "Shinou Women's University",
     "year": "Univ1",
-    "yearLabel": "Uni 1",
+    "yearLabel": "Uni Year 1",
     "thumbnail": "cards/thumbnails/48.webp"
   },
   {
@@ -1082,7 +1082,7 @@
     "attributeLabel": "Azure",
     "school": "Haneoka Girls' High School",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/49.webp"
   },
   {
@@ -1104,7 +1104,7 @@
     "attributeLabel": "Violet",
     "school": "Tsukinomori Girls' Academy Middle School",
     "year": "JHS2",
-    "yearLabel": "Jr High 2",
+    "yearLabel": "JHS Year 2",
     "thumbnail": "cards/thumbnails/50.webp"
   },
   {
@@ -1126,7 +1126,7 @@
     "attributeLabel": "Amber",
     "school": "Haneoka Girls' High School",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/51.webp"
   },
   {
@@ -1148,7 +1148,7 @@
     "attributeLabel": "Violet",
     "school": "Haneoka Girls' High School",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/52.webp"
   },
   {
@@ -1170,7 +1170,7 @@
     "attributeLabel": "Jade",
     "school": "Hanasakigawa Girls' Junior High School",
     "year": "JHS3",
-    "yearLabel": "Jr High 3",
+    "yearLabel": "JHS Year 3",
     "thumbnail": "cards/thumbnails/53.webp"
   },
   {
@@ -1192,7 +1192,7 @@
     "attributeLabel": "Ruby",
     "school": "Tsukinomori Girls' Academy",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/54.webp"
   },
   {
@@ -1214,7 +1214,7 @@
     "attributeLabel": "Azure",
     "school": "Hanasakigawa Girls' High School",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/55.webp"
   },
   {
@@ -1237,7 +1237,7 @@
     "attributeLabel": "Ruby",
     "school": "Hanasakigawa Girls' High School",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/56.webp"
   },
   {
@@ -1259,7 +1259,7 @@
     "attributeLabel": "Amber",
     "school": "Tsukinomori Girls' Academy",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/57.webp"
   },
   {
@@ -1281,7 +1281,7 @@
     "attributeLabel": "Violet",
     "school": "Hanasakigawa Girls' High School",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/58.webp"
   },
   {
@@ -1303,7 +1303,7 @@
     "attributeLabel": "Azure",
     "school": "Geijutsu Academy",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/59.webp"
   },
   {
@@ -1325,7 +1325,7 @@
     "attributeLabel": "Jade",
     "school": "Haneoka Girls' High School",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/60.webp"
   },
   {
@@ -1347,7 +1347,7 @@
     "attributeLabel": "Azure",
     "school": "Kanda Shiroyama Academy",
     "year": "HS2",
-    "yearLabel": "High 2",
+    "yearLabel": "HS Year 2",
     "thumbnail": "cards/thumbnails/61.webp"
   },
   {
@@ -1369,7 +1369,7 @@
     "attributeLabel": "Azure",
     "school": "Kanda Shiroyama Academy",
     "year": "HS2",
-    "yearLabel": "High 2",
+    "yearLabel": "HS Year 2",
     "thumbnail": "cards/thumbnails/62.webp"
   },
   {
@@ -1391,7 +1391,7 @@
     "attributeLabel": "Azure",
     "school": "Kanda Shiroyama Academy",
     "year": "HS1",
-    "yearLabel": "High 1",
+    "yearLabel": "HS Year 1",
     "thumbnail": "cards/thumbnails/63.webp"
   }
 ]

@@ -2,8 +2,12 @@
     /* BanG Dream! brand pink, as used on the official sites */
     --bd-pink: #de1c4e;
     --bd-pink-dark: #b5133e;
-    /* MyGO!!!!!'s blue, used only to mark a square as correctly filled. The
-       page stays pink; this is the one state that has to read as "right". */
+    /* millsage's purple: the one colour that means "close but not right".
+       Taken from the midpoint of its logo gradient, since the dark end of that
+       gradient does not separate from the page background. */
+    --millsage-purple: #7a2ac0;
+    /* MyGO!!!!!'s blue: the one colour that means "exactly correct". Shared by
+       every game in this repo so a right answer looks the same everywhere. */
     --mygo-blue: #3388bb;
 }
 
@@ -448,4 +452,11 @@ dialog:focus {
 .answer-sub {
     font-size: 11px;
     color: #999999;
+}
+
+/* A finished round states its outcome in the shared colours: blue for a win,
+   pink chrome otherwise. */
+#end-result.won,
+#end-title.won {
+    color: var(--mygo-blue);
 }

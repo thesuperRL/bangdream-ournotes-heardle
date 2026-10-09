@@ -505,7 +505,7 @@ function createUnclosablePopup(content, options = {}) {
         : '';
 
     popup.innerHTML = `
-                <h4 id="end-result"> ${config.title} </h4>
+                <h4 id="end-result" class="${options.guessed ? 'won' : ''}"> ${config.title} </h4>
                 <p>The correct answer was <a href="${ClipURL}" target="_blank">"${Answer}"</a></p>
                 ${player}
                 <p id="tries-used">${content}</p>
@@ -680,7 +680,7 @@ ${generateGuessNumbers(isGuessed)}`;
 }
 
 function generateGuessNumbers(isGuessed) {
-    const right = "🟦";
+    const right = "🟩";
     const rightSound = "🔊";
     const wrong = "⬛️";
     const wrongSound = "🔇";

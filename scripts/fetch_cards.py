@@ -55,12 +55,13 @@ ATTRIBUTE_LABEL = {1: "Ruby", 2: "Azure", 3: "Jade", 4: "Amber", 5: "Violet"}
 
 # Year codes as stored by the wordle -> the label the chips show.
 YEAR_LABEL = {
-    "HS1": "High 1",
-    "HS2": "High 2",
-    "HS3": "High 3",
-    "JHS2": "Jr High 2",
-    "JHS3": "Jr High 3",
-    "Univ1": "Uni 1",
+    "JHS1": "JHS Year 1",
+    "JHS2": "JHS Year 2",
+    "JHS3": "JHS Year 3",
+    "HS1": "HS Year 1",
+    "HS2": "HS Year 2",
+    "HS3": "HS Year 3",
+    "Univ1": "Uni Year 1",
 }
 
 THUMB_WIDTH = 240

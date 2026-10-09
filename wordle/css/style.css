@@ -2,12 +2,12 @@
     /* BanG Dream! brand pink, as used on the official sites */
     --bd-pink: #de1c4e;
     --bd-pink-dark: #b5133e;
-    /* Muted version for partial hints, so they read as a hint rather than as
-       another piece of chrome. */
-    --bd-pink-dim: #8f3a51;
-    /* MyGO!!!!!'s blue, used only to mark something as exactly correct. The
-       page stays pink: this is the one state that needs to read as "right"
-       rather than as "close", which two shades of the same pink could not do. */
+    /* millsage's purple: the one colour that means "close but not right".
+       Taken from the midpoint of its logo gradient, since the dark end of that
+       gradient does not separate from the page background. */
+    --millsage-purple: #7a2ac0;
+    /* MyGO!!!!!'s blue: the one colour that means "exactly correct". Shared by
+       every game in this repo so a right answer looks the same everywhere. */
     --mygo-blue: #3388bb;
 }
 
@@ -137,7 +137,7 @@ hr {
 /* Partial overlap (shared position) or a comparison field (year, height),
    which stays dim even when it is an exact match. */
 .guess-row td.match-partial {
-    background-color: var(--bd-pink-dim);
+    background-color: var(--millsage-purple);
     color: #ffffff;
 }
 
@@ -196,7 +196,7 @@ hr {
 }
 
 .hint-swatch-dim {
-    color: var(--bd-pink-dim);
+    color: var(--millsage-purple);
     font-weight: 600;
 }
 
@@ -490,4 +490,11 @@ body.end-popup-open {
     .guess-row td.cell-band img + .band-name {
         display: block;
     }
+}
+
+/* A finished round states its outcome in the shared colours: blue for a win,
+   pink chrome otherwise. */
+#end-result.won,
+#end-title.won {
+    color: var(--mygo-blue);
 }

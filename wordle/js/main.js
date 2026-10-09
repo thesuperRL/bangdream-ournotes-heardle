@@ -42,9 +42,9 @@ const YEAR_RANK = {
 
 // Human-readable form of the compact year codes stored in characters.json.
 const YEAR_LABEL = {
-    JHS1: 'Jr High 1', JHS2: 'Jr High 2', JHS3: 'Jr High 3',
-    HS1: 'High 1', HS2: 'High 2', HS3: 'High 3',
-    Univ1: 'Uni 1',
+    JHS1: 'JHS Year 1', JHS2: 'JHS Year 2', JHS3: 'JHS Year 3',
+    HS1: 'HS Year 1', HS2: 'HS Year 2', HS3: 'HS Year 3',
+    Univ1: 'Uni Year 1',
 };
 
 // Band name -> logo file stem. Written by scripts/download_character_icons.py,
@@ -620,7 +620,7 @@ function createUnclosablePopup(content, options = {}) {
         : '';
 
     popup.innerHTML = `
-                <h4 id="end-result"> ${config.title} </h4>
+                <h4 id="end-result" class="${options.guessed ? 'won' : ''}"> ${config.title} </h4>
                 <img id="answer-icon" src="${DATA}${Answer.icon}" alt="${Answer.names.en}">
                 <p>The answer was <strong>${Answer.names.en} (${Answer.names.ja})</strong>${stage}<br>
                    ${Answer.band} &middot; ${Answer.positions.join(', ')}</p>
@@ -769,7 +769,7 @@ ${generateGuessNumbers(isGuessed)}`;
 }
 
 function generateGuessNumbers(isGuessed) {
-    const right = "🟦";
+    const right = "🟩";
     const wrong = "⬛️";
     const unused = "⬜️";
 

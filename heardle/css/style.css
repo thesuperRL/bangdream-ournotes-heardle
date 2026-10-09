@@ -2,9 +2,13 @@
     /* BanG Dream! brand pink, as used on the official sites */
     --bd-pink: #de1c4e;
     --bd-pink-dark: #b5133e;
-    /* Muted version for the right-band hint, so it reads as a hint rather
-       than as another piece of chrome. */
-    --bd-pink-dim: #8f3a51;
+    /* millsage's purple: the one colour that means "close but not right".
+       Taken from the midpoint of its logo gradient, since the dark end of that
+       gradient does not separate from the page background. */
+    --millsage-purple: #7a2ac0;
+    /* MyGO!!!!!'s blue: the one colour that means "exactly correct". Shared by
+       every game in this repo so a right answer looks the same everywhere. */
+    --mygo-blue: #3388bb;
 }
 
 /* The page is exactly one viewport tall: header and footer always visible,
@@ -105,14 +109,14 @@ hr {
    names the band (set as a title attribute in checkGuess). */
 .col-sm-middle.right-band,
 .col-sm-middle-guessed.right-band {
-    border-color: var(--bd-pink-dim);
-    color: var(--bd-pink-dim);
+    border-color: var(--millsage-purple);
+    color: var(--millsage-purple);
     cursor: help;
 }
 
 /* Shows the hint colour inline in the How to Play text. */
 .hint-swatch {
-    color: var(--bd-pink-dim);
+    color: var(--millsage-purple);
 }
 
 /* Only meaningful once the daily song is done, so it stays hidden until the
@@ -426,4 +430,10 @@ body.end-popup-open {
 
 .description {
     margin-top: 15px;
+}
+/* A finished round states its outcome in the shared colours: blue for a win,
+   pink chrome otherwise. */
+#end-result.won,
+#end-title.won {
+    color: var(--mygo-blue);
 }
