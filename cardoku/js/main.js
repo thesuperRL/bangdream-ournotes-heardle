@@ -15,7 +15,7 @@ const MIN_CHARACTERS_PER_CELL = 2;
 
 // A grid is six clues drawn at random; this is how many draws are made before
 // giving up. Measured over the current 66 cards a usable grid turns up after
-// about 180 draws and the worst case seen in 3000 runs was 1303, so this is
+// about 196 draws and the worst case seen in 3000 runs was 1473, so this is
 // slack, not a tuning knob. See tests/cardoku_generator.cjs.
 const MAX_ATTEMPTS = 20000;
 
@@ -222,6 +222,16 @@ function generatePuzzle(seed) {
         const rowCategories = new Set(rows.map(clue => clue.category));
         if (columns.some(clue => rowCategories.has(clue.category))) continue;
 
+        /* An axis may not be one category all the way down either. Such a grid
+           is solvable and legal, but all three clues read the same and the
+           axis stops feeling like three separate questions. It is not rare
+           enough to ignore: the retry loop below prefers broad clues, which
+           pushes small categories like rarity and skill up to roughly one grid
+           in a hundred with a single-category axis, against one in seven
+           thousand if the six clues were simply drawn and kept. */
+        const columnCategories = new Set(columns.map(clue => clue.category));
+        if (rowCategories.size < 2 || columnCategories.size < 2) continue;
+
         const options = [];
         for (const row of rows) {
             for (const column of columns) {
@@ -291,6 +301,27 @@ function saveState() {
     }
 }
 
+/* Does a restored board still belong to the grid on screen?
+
+   The daily grid is derived from the card data and the generator, so a
+   dataset refresh or a change to the drawing rules silently gives the same
+   day a different grid. The old save would then be replayed onto it and every
+   placed card would show as correct under clues it does not satisfy. Checking
+   the placements is cheaper than versioning the save, and it fails the only
+   way that is safe: the day starts over. */
+function fitsPuzzle(saved) {
+    for (let row = 0; row < SIZE; row++) {
+        for (let column = 0; column < SIZE; column++) {
+            const id = saved.placed[row][column];
+            if (id === null) continue;
+            if (!puzzle.rows[row].ids.has(id) || !puzzle.columns[column].ids.has(id)) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 function loadState() {
     if (mode !== 'daily') return emptyState();
     try {
@@ -300,6 +331,7 @@ function loadState() {
             && Array.isArray(saved.placed) && saved.placed.length === SIZE
             && Array.isArray(saved.missed) && saved.missed.length === SIZE
             && typeof saved.lives === 'number') {
+            if (!fitsPuzzle(saved)) return emptyState();
             return saved;
         }
     } catch (error) {

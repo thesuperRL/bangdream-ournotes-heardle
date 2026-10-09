@@ -32,6 +32,8 @@ const epilogue = `
     exported.MIN_CHARACTERS_PER_CELL = MIN_CHARACTERS_PER_CELL;
     exported.CATEGORIES = CATEGORIES;
     exported.hash32 = hash32;
+    exported.fitsPuzzle = saved => fitsPuzzle(saved);
+    exported.setPuzzle = p => { puzzle = p; };
     exported.load = cards => {
         CARDS = cards;
         CHARACTER_OF = new Map(cards.map(card => [card.id, card.characterId]));
@@ -109,6 +111,11 @@ for (let seed = 0; seed < SEEDS; seed++) {
         categoriesSeen.add(clue.category);
     }
     for (const clue of puzzle.rows) categoriesSeen.add(clue.category);
+    // Nor may an axis be one category all the way down: three clues that all
+    // read the same are one question asked three times.
+    const columns = new Set(puzzle.columns.map(clue => clue.category));
+    assert.ok(rows.size >= 2, `seed ${seed} has a ${[...rows][0]}-only row axis`);
+    assert.ok(columns.size >= 2, `seed ${seed} has a ${[...columns][0]}-only column axis`);
 }
 
 assert.strictEqual(failures, 0, `${failures}/${SEEDS} seeds produced no grid`);
@@ -116,6 +123,26 @@ assert.strictEqual(
     categoriesSeen.size,
     exported.CATEGORIES.length,
     `only ${[...categoriesSeen].join(', ')} ever reached a grid`
+);
+
+/* A saved daily board is replayed onto a grid rebuilt from the card data, so
+   a dataset refresh can hand the same day a different grid. Placements that
+   no longer satisfy their square have to be rejected, or they come back
+   marked correct under clues they do not meet. */
+const grid = exported.generatePuzzle(0);
+exported.setPuzzle(grid);
+const blank = { placed: [[null, null, null], [null, null, null], [null, null, null]] };
+assert.ok(exported.fitsPuzzle(blank), 'an empty board was rejected');
+
+const topLeft = cards.find(card => grid.rows[0].ids.has(card.id) && grid.columns[0].ids.has(card.id));
+const elsewhere = cards.find(card => !grid.rows[0].ids.has(card.id) || !grid.columns[0].ids.has(card.id));
+assert.ok(
+    exported.fitsPuzzle({ placed: [[topLeft.id, null, null], [null, null, null], [null, null, null]] }),
+    'a placement that still satisfies both clues was discarded'
+);
+assert.ok(
+    !exported.fitsPuzzle({ placed: [[elsewhere.id, null, null], [null, null, null], [null, null, null]] }),
+    'a placement that no longer satisfies its clues was kept'
 );
 
 console.log(`${cards.length} cards, ${pool.length} clues`);
